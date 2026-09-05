@@ -1,8 +1,21 @@
 import http from "node:http";
-import { readFile } from "node:fs/promises";
+import { networkInterfaces } from "node:os";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 const root = path.resolve("dist/client");
 const port = Number(process.env.PORT || 3000);
+const host = process.env.HOST || "127.0.0.1";
+if (host === "0.0.0.0") {
+  const addresses = Object.entries(networkInterfaces())
+    .filter(([name]) => /^(en|eth|wlan)/.test(name))
+    .flatMap(([, values]) => values || [])
+    .filter(a => a.family === "IPv4" && !a.internal);
+  const address = addresses[0]?.address;
+  await writeFile(path.join(root, "phone-preview.json"), JSON.stringify({
+    origin: address ? `http://${address}:${port}` : null,
+  }));
+  if (address) console.log(`Phone preview (same Wi-Fi): http://${address}:${port}/saved`);
+}
 const mime = {
   ".html": "text/html; charset=utf-8",
   ".rsc": "text/x-component",
@@ -40,6 +53,6 @@ http
       res.end(await readFile(path.join(root, "404.html")).catch(() => Buffer.from("Not found")));
     }
   })
-  .listen(port, "127.0.0.1", () =>
+  .listen(port, host, () =>
     console.log(`ECCV Scout production preview: http://localhost:${port}/`),
   );

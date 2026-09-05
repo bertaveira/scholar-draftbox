@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
-test('service worker installs full shell, navigates offline, serves saved data and removes only old shell caches', async () => {
+void test('service worker installs full shell, navigates offline, serves saved data and removes only old shell caches', async () => {
   const handlers = new Map(),
     stores = new Map();
   const precache = [

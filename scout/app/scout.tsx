@@ -39,6 +39,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import SavedSchedule from './saved-schedule';
+import BookmarkTransfer from './bookmark-transfer';
 import { Switch } from '@/components/ui/switch';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -464,29 +465,37 @@ export default function Scout({
                   : 'Browse ECCV 2026, save your favourites, and find their posters.'}
             </p>
           </div>
-          {view === 'saved' && (
-            <div className="transfer">
-              <Button variant="outline" onClick={exportSaved}>
-                <Download size={16} />
-                Export
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => fileInput.current?.click()}
-              >
-                <Upload size={16} />
-                Import
-              </Button>
-              <input
-                ref={fileInput}
-                type="file"
-                accept="application/json,.json"
-                className="sr-only"
-                aria-label="Import saved papers"
-                onChange={(e) => void importFile(e.target.files?.[0])}
-              />
-            </div>
-          )}
+          <div className="transfer">
+            <BookmarkTransfer
+              data={data}
+              saved={saved}
+              showSend={view === 'saved'}
+              exportSaved={exportSaved}
+            />
+            {view === 'saved' && (
+              <>
+                <Button variant="outline" onClick={exportSaved}>
+                  <Download size={16} />
+                  Export
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => fileInput.current?.click()}
+                >
+                  <Upload size={16} />
+                  Import
+                </Button>
+                <input
+                  ref={fileInput}
+                  type="file"
+                  accept="application/json,.json"
+                  className="sr-only"
+                  aria-label="Import saved papers"
+                  onChange={(e) => void importFile(e.target.files?.[0])}
+                />
+              </>
+            )}
+          </div>
         </div>
         {offline && (
           <output className="notice">

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import ts from 'typescript';
 mkdirSync('.test-output', { recursive: true });
-for (const name of ['conference', 'storage', 'webmcp', 'loader']) {
+for (const name of ['conference', 'storage', 'webmcp', 'loader', 'transfer']) {
   const source = readFileSync(`lib/${name}.ts`, 'utf8');
   const js = ts
     .transpileModule(source, {
@@ -39,7 +39,7 @@ globalThis.localStorage = {
 const storage = await import('../.test-output/storage.js');
 const { createTools, registerTools } =
   await import('../.test-output/webmcp.js');
-test('real dataset validates with complete poster assignments and repeat presentations', () => {
+void test('real dataset validates with complete poster assignments and repeat presentations', () => {
   validateDataset(data);
   assert.ok(data.papers.length > 2500);
   assert.equal(
@@ -50,7 +50,7 @@ test('real dataset validates with complete poster assignments and repeat present
   assert.ok(data.presentations.some((p) => p.type === 'spotlight'));
   assert.ok(data.presentations.every((p) => p.sessionId));
 });
-test('keyword search handles exact titles, accents, authors and acronyms', () => {
+void test('keyword search handles exact titles, accents, authors and acronyms', () => {
   const search = createSearch(data);
   const p = data.papers.find((p) => p.officialId === '4419');
   assert.equal(search(p.title)[0].id, p.id);
@@ -58,7 +58,7 @@ test('keyword search handles exact titles, accents, authors and acronyms', () =>
   assert.ok(search('SLAM').some((p) => p.title.includes('SLAM')));
   assert.ok(search('VLA').length > 0);
 });
-test('combined filters must match the same presentation', () => {
+void test('combined filters must match the same presentation', () => {
   const p = data.presentations.find((p) => p.type === 'oral');
   const session = data.sessions.find((s) => s.id === p.sessionId);
   const search = createSearch(data);
@@ -81,9 +81,9 @@ test('combined filters must match the same presentation', () => {
     ),
   );
 });
-test('Stockholm day differs from UTC where appropriate', () =>
+void test('Stockholm day differs from UTC where appropriate', () =>
   assert.equal(dayKey('2026-09-09T23:30:00Z'), '2026-09-10'));
-test('saving once appears in oral and poster groups, unknowns survive', () => {
+void test('saving once appears in oral and poster groups, unknowns survive', () => {
   const p = data.presentations.find((p) => p.type === 'oral');
   const g = groupSaved(data, [p.paperId, 'eccv-2026-999999']);
   assert.ok(g.groups.length >= 2);
@@ -94,7 +94,7 @@ test('saving once appears in oral and poster groups, unknowns survive', () => {
   );
   assert.equal(groupSaved(modified, [p.paperId]).unscheduled[0].id, p.paperId);
 });
-test('posters sort numerically, missing poster numbers sort last', () => {
+void test('posters sort numerically, missing poster numbers sort last', () => {
   const papers = data.papers.slice(0, 3);
   const pres = papers.map((p, i) => ({
     paperId: p.id,
@@ -106,7 +106,7 @@ test('posters sort numerically, missing poster numbers sort last', () => {
     [papers[1].id, papers[0].id, papers[2].id],
   );
 });
-test('invalid profiles are rejected; imports merge without duplicates', () => {
+void test('invalid profiles are rejected; imports merge without duplicates', () => {
   storage.initializeStorage();
   const id = data.papers[0].id;
   storage.setBookmark(id, true);
@@ -123,7 +123,7 @@ test('invalid profiles are rejected; imports merge without duplicates', () => {
   assert.equal(storage.getSaved(), before);
   assert.throws(() => parseProfile(profile(['<script>'])));
 });
-test('cross-tab updates and storage failure preserve usable in-memory state', () => {
+void test('cross-tab updates and storage failure preserve usable in-memory state', () => {
   const id = data.papers[1].id;
   localStorage.setItem('eccv-scout.profile.v1', JSON.stringify(profile([id])));
   callbacks.get('storage')({ key: 'eccv-scout.profile.v1' });
@@ -137,7 +137,7 @@ test('cross-tab updates and storage failure preserve usable in-memory state', ()
   assert.equal(storage.getSaved().length, 2);
   localStorage.setItem = original;
 });
-test('malformed datasets reject duplicate IDs, broken refs and reversed times', () => {
+void test('malformed datasets reject duplicate IDs, broken refs and reversed times', () => {
   for (const mutate of [
     (d) => d.papers.push(d.papers[0]),
     (d) => (d.presentations[0].paperId = 'missing'),
@@ -149,7 +149,7 @@ test('malformed datasets reject duplicate IDs, broken refs and reversed times', 
     assert.throws(() => validateDataset(d));
   }
 });
-test('WebMCP tools use shared state and reject invalid input', () => {
+void test('WebMCP tools use shared state and reject invalid input', () => {
   const tools = createTools(data);
   assert.deepEqual(
     tools.map((t) => t.name),
@@ -178,7 +178,7 @@ test('WebMCP tools use shared state and reject invalid input', () => {
   unregister();
   assert.ok(registered.every((x) => x.options.signal.aborted));
 });
-test('loader keeps the complete prior snapshot when a refresh is invalid or offline', async () => {
+void test('loader keeps the complete prior snapshot when a refresh is invalid or offline', async () => {
   const entries = new Map([
     ['/data/conference.json', new Response(JSON.stringify(data))],
   ]);
@@ -211,7 +211,7 @@ test('loader keeps the complete prior snapshot when a refresh is invalid or offl
   );
 });
 
-test('poster overview includes empty sessions, counts unique saved papers, and excludes oral sessions', () => {
+void test('poster overview includes empty sessions, counts unique saved papers, and excludes oral sessions', () => {
   const empty = posterSchedule(data, []);
   assert.equal(empty.length, 6);
   assert.ok(empty.every((s) => s.savedCount === 0 && s.total > 0));
@@ -245,7 +245,7 @@ test('poster overview includes empty sessions, counts unique saved papers, and e
   );
 });
 
-test('schedule includes only requested event kinds while counting saved oral appearances', () => {
+void test('schedule includes only requested event kinds while counting saved oral appearances', () => {
   const oral = data.presentations.find((p) => p.type === 'oral');
   const schedule = conferenceSchedule(data, [oral.paperId]);
   assert.ok(schedule.length < data.sessions.length);
@@ -269,7 +269,7 @@ test('schedule includes only requested event kinds while counting saved oral app
   );
 });
 
-test('multi-select unions values, intersects groups, and preserves the opened session boundary', () => {
+void test('multi-select unions values, intersects groups, and preserves the opened session boundary', () => {
   const papers = data.papers.slice(0, 4).map((p, i) => ({...p, id:`eccv-2026-${i+1}`, topics:[['Vision'],['Robotics'],['Vision','Robotics'],['Language']][i]}));
   const sessions = [
     {...data.sessions[0], id:'a', startsAt:'2026-09-10T09:00:00+02:00'},
@@ -287,7 +287,7 @@ test('multi-select unions values, intersects groups, and preserves the opened se
 });
 
 
-test('timetable separates overlaps, reuses lanes at boundaries, and handles missing times', () => {
+void test('timetable separates overlaps, reuses lanes at boundaries, and handles missing times', () => {
   const base = conferenceSchedule(data, [])[0];
   const event = (id, start, end) => ({...base, session: {...base.session, id,
     startsAt: start ? `2026-09-10T${start}:00+02:00` : null,
@@ -310,7 +310,7 @@ test('timetable separates overlaps, reuses lanes at boundaries, and handles miss
   }
 });
 
-test('real conference parallel sessions occupy separate timetable lanes', () => {
+void test('real conference parallel sessions occupy separate timetable lanes', () => {
   const entries = conferenceSchedule(data, []).filter(e => dayKey(e.session.startsAt) === '2026-09-10');
   const {placed} = layoutSchedule(entries);
   const morning = placed.filter(p => p.start === 540 && ['oral','spotlight'].includes(p.entry.kind));
@@ -319,4 +319,40 @@ test('real conference parallel sessions occupy separate timetable lanes', () => 
   for (const a of placed) for (const b of placed) {
     if (a !== b && a.start < b.end && b.start < a.end) assert.notEqual(a.lane, b.lane);
   }
+});
+
+
+const {encodeTransfer, decodeTransfer, transferUrl, transferSummary} = await import('../.test-output/transfer.js');
+void test('QR transfer roundtrips stable IDs including unknown bookmarks and deduplicates', () => {
+  const ids = [data.papers[0].id, 'eccv-2026-999999', 'eccv-2026-00023'];
+  const url = new URL(transferUrl('http://192.168.1.10:3001/?old=yes#old', [...ids, ids[0]]));
+  assert.equal(url.pathname, '/saved');
+  assert.equal(url.search, '');
+  assert.deepEqual(decodeTransfer(url.hash), ids);
+  assert.deepEqual(transferSummary(ids, [ids[0]], new Set([ids[0]])), {added:2, existing:1, unavailable:2});
+  assert.equal(decodeTransfer('#unrelated'), null);
+});
+void test('invalid QR imports do not mutate saved state; confirmed transfers merge repeatedly', () => {
+  storage.setSaved([data.papers[0].id]);
+  const before = [...storage.getSaved()];
+  for (const bad of ['#draftbox=2.123', '#draftbox=1.', '#draftbox=1.abc', '#draftbox=1.123..456', '#draftbox=1.' + '9'.repeat(60000)]) {
+    assert.throws(() => {const ids = decodeTransfer(bad); storage.importProfile(profile(ids));});
+    assert.deepEqual(storage.getSaved(), before);
+  }
+  const incoming = decodeTransfer(encodeTransfer([data.papers[1].id, 'eccv-2026-999999']));
+  assert.deepEqual(storage.getSaved(), before); // preview does not save
+  storage.importProfile(profile(incoming));
+  storage.importProfile(profile(incoming));
+  assert.deepEqual(storage.getSaved(), [...before, ...incoming]);
+});
+void test('QR generation rejects unreachable addresses, unsafe schemes, and oversized lists', async () => {
+  const ids = data.papers.slice(0, 80).map(p => p.id);
+  for (const address of ['http://localhost:3000', 'http://127.0.0.1', 'http://[::1]', 'http://0.0.0.0', 'javascript:alert(1)', 'https://user:pass@example.com'])
+    assert.throws(() => transferUrl(address, ids));
+  assert.throws(() => transferUrl('https://example.com', []));
+  assert.throws(() => transferUrl('https://example.com', data.papers.map(p => p.id)));
+  const QRCode = (await import('qrcode')).default;
+  const qr = QRCode.create(transferUrl('https://example.com', ids), {errorCorrectionLevel:'M'});
+  assert.ok(qr.modules.size > 0);
+  assert.ok(qr.version <= 25);
 });

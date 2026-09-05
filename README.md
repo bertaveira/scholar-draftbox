@@ -94,3 +94,11 @@ Automated coverage includes data validation, full-source deduplication, multiple
 WebMCP registration contracts and shared-state actions are tested with a simulated model context. A live browser WebMCP context has not been verified. Safari/Chrome visual and touch testing has not been performed in this task.
 
 The lint command covers authored application, data tooling, and test code. Unmodified supplied component primitives contain existing lint findings and are excluded from that command. Public hosting, semantic search, recommendations, workshops, and calendar export remain future work.
+
+### Send bookmarks to a phone
+
+In Saved, choose **Send to phone**, scan the code with the phone camera, and confirm the import. The preview shows new/existing bookmarks and paper titles. Imports merge with the phone's existing saves, preserve unavailable paper IDs, and remove the transfer fragment from the address bar after confirmation or cancellation. This is a one-time copy, not ongoing sync. The QR is generated locally; its versioned payload contains only paper IDs in the URL fragment (not sent to the web server). Anyone with the code/link can import that selection. Long lists fall back to JSON export/import.
+
+For local testing, build the app and run `npm run preview:lan` from `scout/`. Keep the laptop running and use the same Wi-Fi on both devices. This starts a static preview on port 3001, listening on the local network, and prints the phone address. It writes `dist/client/phone-preview.json` so the existing localhost preview can automatically use that address for QR transfer. This generated configuration is excluded from offline caching and source control. Restart the LAN preview after rebuilding or changing networks. The dialog uses the current site origin automatically when published. Network isolation or a firewall may prevent access.
+
+Local HTTP transfer and bookmarking work on the phone, but service workers/offline caching require HTTPS (or localhost). Public hosting remains a separate step. Bookmarks belong to the exact browser origin, so changing address/port later requires another import.

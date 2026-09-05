@@ -12,7 +12,7 @@ async function walk(dir) {
     )
   ).flat();
 }
-const files = (await walk(root)).filter((f) => !f.endsWith("/sw.js") && !f.endsWith(".map")).sort();
+const files = (await walk(root)).filter((f) => !f.endsWith("/phone-preview.json") && !f.endsWith("/sw.js") && !f.endsWith(".map")).sort();
 const urls = files.map((f) => "/" + path.relative(root, f).split(path.sep).join("/"));
 const hash = createHash("sha256");
 for (const f of files) hash.update(await readFile(f));
