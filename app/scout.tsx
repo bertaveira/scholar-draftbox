@@ -168,6 +168,7 @@ export default function Scout({
 }) {
   const [data, setData] = useState<Dataset | null>(null),
     [query, setQuery] = useState(''),
+    [searchQuery, setSearchQuery] = useState(''),
     [filters, setFilters] = useState<Filters>(emptyFilters),
     [limit, setLimit] = useState(50),
     [detail, setDetail] = useState<Paper | null>(null),
@@ -286,16 +287,20 @@ export default function Scout({
       active = false;
     };
   }, []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setSearchQuery(query), 200);
+    return () => window.clearTimeout(timer);
+  }, [query]);
   const search = useMemo(() => (data ? createSearch(data) : null), [data]);
   const rows = useMemo(
     () =>
       search?.(
-        query,
+        searchQuery,
         view === 'session' && sessionId
           ? { ...filters, session: [sessionId] }
           : filters,
       ) || [],
-    [search, query, filters, view, sessionId],
+    [search, searchQuery, filters, view, sessionId],
   );
   const byPaper = useMemo(() => {
     const map = new Map<string, Dataset['presentations']>();
@@ -356,6 +361,7 @@ export default function Scout({
       : rows;
   function reset() {
     setQuery('');
+    setSearchQuery('');
     setFilters(emptyFilters);
     setLimit(50);
   }
@@ -702,7 +708,9 @@ export default function Scout({
                     setLimit(50);
                   }}
                 />
-                <span>Keyword search</span>
+                <span>
+                  {query !== searchQuery ? 'Searching…' : 'Keyword search'}
+                </span>
               </label>
               {data && (
                 <div
@@ -946,7 +954,7 @@ export default function Scout({
                 <div className="session-switch">
                   <span>
                     {sessionRows.filter((p) => saved.includes(p.id)).length}{' '}
-                    {query.trim() || filters.topic.length
+                    {searchQuery.trim() || filters.topic.length
                       ? 'matching saved papers'
                       : 'saved in this session'}
                   </span>
