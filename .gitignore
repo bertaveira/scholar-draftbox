@@ -37,6 +37,11 @@ next-env.d.ts
 /outputs/
 /work/
 
+# Recommendation pipeline local state (models remain in the Hugging Face cache).
+/.recommendations-venv/
+/.recommendations-cache/
+/scripts/recommendations/work/
+
 /.test-output/
 *.tsbuildinfo
 __pycache__/

@@ -16,7 +16,10 @@
     "data:refresh": "python3 scripts/ingest.py",
     "preview": "node scripts/preview.mjs",
     "preview:lan": "HOST=0.0.0.0 PORT=3001 node scripts/preview.mjs",
-    "data:links": "python3 scripts/apply_arxiv_links.py"
+    "data:links": "python3 scripts/apply_arxiv_links.py",
+    "recommendations:evaluate": ".recommendations-venv/bin/python -m scripts.recommendations.pipeline evaluate",
+    "recommendations:generate": ".recommendations-venv/bin/python -m scripts.recommendations.pipeline generate --model specter2 --neighbors 30",
+    "recommendations:validate": "python3 -m scripts.recommendations.pipeline validate"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

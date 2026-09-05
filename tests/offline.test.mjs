@@ -8,10 +8,14 @@ void test('service worker installs full shell, navigates offline, serves saved d
   const precache = [
     '/',
     '/saved',
+    '/suggestions',
     '/session/session-1',
     '/session/session-1.rsc',
     '/404.html',
     '/data/conference.json',
+    '/data/recommendations/current.json',
+    '/data/recommendations/versions/version/manifest.json',
+    '/data/recommendations/versions/version/neighbors.json',
     '/_next/app.js',
   ];
   let claimed = false,
@@ -107,7 +111,11 @@ void test('service worker installs full shell, navigates offline, serves saved d
   }
   assert.equal(await (await get('/saved')).text(), '/saved');
   assert.equal(await (await get('/saved/')).text(), '/saved');
-  assert.equal(await (await get('/session/session-1?all=1')).text(), '/session/session-1');
+  assert.equal(await (await get('/suggestions')).text(), '/suggestions');
+  assert.equal(
+    await (await get('/session/session-1?all=1')).text(),
+    '/session/session-1',
+  );
   assert.equal(
     await (await get('/session/session-1')).text(),
     '/session/session-1',
@@ -121,6 +129,16 @@ void test('service worker installs full shell, navigates offline, serves saved d
   assert.equal(
     await (await get('/_next/app.js', 'cors')).text(),
     '/_next/app.js',
+  );
+  assert.equal(
+    await (await get('/data/recommendations/current.json', 'cors')).text(),
+    '/data/recommendations/current.json',
+  );
+  assert.equal(
+    await (
+      await get('/data/recommendations/versions/version/neighbors.json', 'cors')
+    ).text(),
+    '/data/recommendations/versions/version/neighbors.json',
   );
   const response = await get('/data/conference.json', 'cors');
   assert.equal(await response.text(), 'validated-latest');

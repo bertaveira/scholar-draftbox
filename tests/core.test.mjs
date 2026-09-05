@@ -3,7 +3,15 @@ import assert from 'node:assert/strict';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import ts from 'typescript';
 mkdirSync('.test-output', { recursive: true });
-for (const name of ['conference', 'storage', 'webmcp', 'loader', 'transfer']) {
+for (const name of [
+  'conference',
+  'storage',
+  'webmcp',
+  'loader',
+  'transfer',
+  'recommendations',
+  'recommendation-loader',
+]) {
   const source = readFileSync(`lib/${name}.ts`, 'utf8');
   const js = ts
     .transpileModule(source, {
@@ -39,6 +47,13 @@ globalThis.localStorage = {
 const storage = await import('../.test-output/storage.js');
 const { createTools, registerTools } =
   await import('../.test-output/webmcp.js');
+const {
+  validateRecommendationData,
+  similarPapers,
+  rankPersonalizedSuggestions,
+} = await import('../.test-output/recommendations.js');
+const { loadRecommendations } =
+  await import('../.test-output/recommendation-loader.js');
 void test('real dataset validates with complete poster assignments and repeat presentations', () => {
   validateDataset(data);
   assert.ok(data.papers.length > 2500);
@@ -137,6 +152,19 @@ void test('cross-tab updates and storage failure preserve usable in-memory state
   assert.equal(storage.getSaved().length, 2);
   localStorage.setItem = original;
 });
+void test('recommendation dismissals are local and do not change bookmark profiles', () => {
+  const savedBefore = [...storage.getSaved()];
+  const paperId = data.papers[10].id;
+  storage.dismissRecommendation(paperId);
+  assert.deepEqual(storage.getDismissedRecommendations(), [paperId]);
+  assert.deepEqual(storage.getSaved(), savedBefore);
+  assert.equal(
+    JSON.parse(store.get(storage.RECOMMENDATION_DISMISSALS_KEY)).paperIds[0],
+    paperId,
+  );
+  storage.clearDismissedRecommendations();
+  assert.deepEqual(storage.getDismissedRecommendations(), []);
+});
 void test('malformed datasets reject duplicate IDs, broken refs and reversed times', () => {
   for (const mutate of [
     (d) => d.papers.push(d.papers[0]),
@@ -211,6 +239,85 @@ void test('loader keeps the complete prior snapshot when a refresh is invalid or
   );
 });
 
+void test('published recommendations validate, load by pointer, and rank balanced saved interests', async () => {
+  const pointer = JSON.parse(
+    readFileSync('public/data/recommendations/current.json', 'utf8'),
+  );
+  const manifest = JSON.parse(
+    readFileSync(`public/data/recommendations/${pointer.manifest}`, 'utf8'),
+  );
+  const directory = pointer.manifest.slice(
+    0,
+    pointer.manifest.lastIndexOf('/') + 1,
+  );
+  const recommendationData = validateRecommendationData(
+    JSON.parse(
+      readFileSync(
+        `public/data/recommendations/${directory}${manifest.files.neighbors.file}`,
+        'utf8',
+      ),
+    ),
+    data,
+  );
+  assert.equal(recommendationData.datasetVersion, data.version);
+  assert.equal(
+    Object.keys(recommendationData.neighbors).length,
+    data.papers.length,
+  );
+  const sourceId = 'eccv-2026-4298';
+  const similar = similarPapers(data, recommendationData, sourceId, 5);
+  assert.equal(similar.length, 5);
+  assert.ok(similar.every(({ paper }) => paper.id !== sourceId));
+
+  const savedIds = [sourceId, 'eccv-2026-3406'];
+  const ranked = rankPersonalizedSuggestions(
+    data,
+    recommendationData,
+    savedIds,
+    [similar[0].paper.id],
+    8,
+  );
+  assert.equal(ranked.length, 8);
+  assert.ok(
+    ranked.every(
+      ({ paper, score, contributingSavedPaperIds }) =>
+        !savedIds.includes(paper.id) &&
+        paper.id !== similar[0].paper.id &&
+        Number.isFinite(score) &&
+        contributingSavedPaperIds.every((paperId) =>
+          savedIds.includes(paperId),
+        ),
+    ),
+  );
+  assert.deepEqual(
+    new Set(
+      ranked
+        .slice(0, 2)
+        .flatMap(({ contributingSavedPaperIds }) => contributingSavedPaperIds),
+    ),
+    new Set(savedIds),
+  );
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    if (typeof url !== 'string') throw Error('Expected a string URL');
+    const path = url.replace(/^\/data\/recommendations\//, '');
+    try {
+      return new Response(readFileSync(`public/data/recommendations/${path}`), {
+        status: 200,
+      });
+    } catch {
+      return new Response('missing', { status: 404 });
+    }
+  };
+  try {
+    const loaded = await loadRecommendations(data);
+    assert.equal(loaded.model, recommendationData.model);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 void test('poster overview includes empty sessions, counts unique saved papers, and excludes oral sessions', () => {
   const empty = posterSchedule(data, []);
   assert.equal(empty.length, 6);
@@ -249,7 +356,10 @@ void test('schedule includes only requested event kinds while counting saved ora
   const oral = data.presentations.find((p) => p.type === 'oral');
   const schedule = conferenceSchedule(data, [oral.paperId]);
   assert.ok(schedule.length < data.sessions.length);
-  assert.deepEqual(new Set(schedule.map(s => s.kind)), new Set(['oral', 'spotlight', 'keynote', 'poster', 'break']));
+  assert.deepEqual(
+    new Set(schedule.map((s) => s.kind)),
+    new Set(['oral', 'spotlight', 'keynote', 'poster', 'break']),
+  );
   assert.equal(schedule.filter((s) => s.kind === 'keynote').length, 3);
   assert.ok(schedule.some((s) => s.kind === 'break'));
   assert.equal(
@@ -270,101 +380,204 @@ void test('schedule includes only requested event kinds while counting saved ora
 });
 
 void test('multi-select unions values, intersects groups, and preserves the opened session boundary', () => {
-  const papers = data.papers.slice(0, 4).map((p, i) => ({...p, id:`eccv-2026-${i+1}`, topics:[['Vision'],['Robotics'],['Vision','Robotics'],['Language']][i]}));
+  const papers = data.papers.slice(0, 4).map((p, i) => ({
+    ...p,
+    id: `eccv-2026-${i + 1}`,
+    topics: [['Vision'], ['Robotics'], ['Vision', 'Robotics'], ['Language']][i],
+  }));
   const sessions = [
-    {...data.sessions[0], id:'a', startsAt:'2026-09-10T09:00:00+02:00'},
-    {...data.sessions[0], id:'b', startsAt:'2026-09-11T09:00:00+02:00'},
+    { ...data.sessions[0], id: 'a', startsAt: '2026-09-10T09:00:00+02:00' },
+    { ...data.sessions[0], id: 'b', startsAt: '2026-09-11T09:00:00+02:00' },
   ];
-  const presentations = [[0,'a','poster'],[1,'a','poster'],[2,'b','poster'],[2,'a','oral'],[3,'b','poster']].map(([i,sessionId,type], index) => ({...data.presentations[0],id:`p${index}`,paperId:papers[i].id,sessionId,type}));
-  const search = createSearch({...data,papers,sessions,presentations});
-  const ids = filters => search('', {...emptyFilters,...filters}).map(p=>p.id);
-  assert.deepEqual(ids({topic:['Vision','Robotics']}), papers.slice(0,3).map(p=>p.id));
-  assert.deepEqual(ids({topic:['Vision','Robotics'],day:['2026-09-10'],type:['poster']}), papers.slice(0,2).map(p=>p.id));
-  assert.deepEqual(ids({topic:['Vision','Robotics'],day:['2026-09-10'],type:['poster','oral']}), papers.slice(0,3).map(p=>p.id));
-  assert.deepEqual(ids({topic:['Vision','Robotics'],session:['b']}), [papers[2].id]);
-  assert.equal(ids({session:['a','b'],day:['2026-09-10','2026-09-11']}).length,4);
-  assert.equal(ids({topic:[]}).length,4);
+  const presentations = [
+    [0, 'a', 'poster'],
+    [1, 'a', 'poster'],
+    [2, 'b', 'poster'],
+    [2, 'a', 'oral'],
+    [3, 'b', 'poster'],
+  ].map(([i, sessionId, type], index) => ({
+    ...data.presentations[0],
+    id: `p${index}`,
+    paperId: papers[i].id,
+    sessionId,
+    type,
+  }));
+  const search = createSearch({ ...data, papers, sessions, presentations });
+  const ids = (filters) =>
+    search('', { ...emptyFilters, ...filters }).map((p) => p.id);
+  assert.deepEqual(
+    ids({ topic: ['Vision', 'Robotics'] }),
+    papers.slice(0, 3).map((p) => p.id),
+  );
+  assert.deepEqual(
+    ids({
+      topic: ['Vision', 'Robotics'],
+      day: ['2026-09-10'],
+      type: ['poster'],
+    }),
+    papers.slice(0, 2).map((p) => p.id),
+  );
+  assert.deepEqual(
+    ids({
+      topic: ['Vision', 'Robotics'],
+      day: ['2026-09-10'],
+      type: ['poster', 'oral'],
+    }),
+    papers.slice(0, 3).map((p) => p.id),
+  );
+  assert.deepEqual(ids({ topic: ['Vision', 'Robotics'], session: ['b'] }), [
+    papers[2].id,
+  ]);
+  assert.equal(
+    ids({ session: ['a', 'b'], day: ['2026-09-10', '2026-09-11'] }).length,
+    4,
+  );
+  assert.equal(ids({ topic: [] }).length, 4);
 });
-
 
 void test('timetable separates overlaps, reuses lanes at boundaries, and handles missing times', () => {
   const base = conferenceSchedule(data, [])[0];
-  const event = (id, start, end) => ({...base, session: {...base.session, id,
-    startsAt: start ? `2026-09-10T${start}:00+02:00` : null,
-    endsAt: end ? `2026-09-10T${end}:00+02:00` : null}});
+  const event = (id, start, end) => ({
+    ...base,
+    session: {
+      ...base.session,
+      id,
+      startsAt: start ? `2026-09-10T${start}:00+02:00` : null,
+      endsAt: end ? `2026-09-10T${end}:00+02:00` : null,
+    },
+  });
   const result = layoutSchedule([
-    event('long', '09:00', '10:30'), event('parallel', '09:00', '10:00'),
-    event('third', '09:30', '10:00'), event('reuse', '10:00', '11:00'),
-    event('solo', '11:00', '12:00'), event('unknown', null, null),
+    event('long', '09:00', '10:30'),
+    event('parallel', '09:00', '10:00'),
+    event('third', '09:30', '10:00'),
+    event('reuse', '10:00', '11:00'),
+    event('solo', '11:00', '12:00'),
+    event('unknown', null, null),
   ]);
   assert.equal(result.startMinute, 540);
   assert.equal(result.endMinute, 720);
-  assert.deepEqual(result.untimed.map(e => e.session.id), ['unknown']);
-  const byId = Object.fromEntries(result.placed.map(p => [p.entry.session.id, p]));
+  assert.deepEqual(
+    result.untimed.map((e) => e.session.id),
+    ['unknown'],
+  );
+  const byId = Object.fromEntries(
+    result.placed.map((p) => [p.entry.session.id, p]),
+  );
   assert.equal(byId.long.end - byId.long.start, 90);
   assert.equal(byId.long.lanes, 3);
   assert.equal(byId.reuse.lane, byId.parallel.lane);
   assert.equal(byId.solo.lanes, 1);
-  for (const a of result.placed) for (const b of result.placed) {
-    if (a !== b && a.start < b.end && b.start < a.end) assert.notEqual(a.lane, b.lane);
-  }
+  for (const a of result.placed)
+    for (const b of result.placed) {
+      if (a !== b && a.start < b.end && b.start < a.end)
+        assert.notEqual(a.lane, b.lane);
+    }
 });
 
 void test('real conference parallel sessions occupy separate timetable lanes', () => {
-  const entries = conferenceSchedule(data, []).filter(e => dayKey(e.session.startsAt) === '2026-09-10');
-  const {placed} = layoutSchedule(entries);
-  const morning = placed.filter(p => p.start === 540 && ['oral','spotlight'].includes(p.entry.kind));
+  const entries = conferenceSchedule(data, []).filter(
+    (e) => dayKey(e.session.startsAt) === '2026-09-10',
+  );
+  const { placed } = layoutSchedule(entries);
+  const morning = placed.filter(
+    (p) => p.start === 540 && ['oral', 'spotlight'].includes(p.entry.kind),
+  );
   assert.equal(morning.length, 3);
-  assert.equal(new Set(morning.map(p => p.lane)).size, 3);
-  for (const a of placed) for (const b of placed) {
-    if (a !== b && a.start < b.end && b.start < a.end) assert.notEqual(a.lane, b.lane);
-  }
+  assert.equal(new Set(morning.map((p) => p.lane)).size, 3);
+  for (const a of placed)
+    for (const b of placed) {
+      if (a !== b && a.start < b.end && b.start < a.end)
+        assert.notEqual(a.lane, b.lane);
+    }
 });
 
-
-const {encodeTransfer, decodeTransfer, transferUrl, transferSummary} = await import('../.test-output/transfer.js');
+const { encodeTransfer, decodeTransfer, transferUrl, transferSummary } =
+  await import('../.test-output/transfer.js');
 void test('QR transfer roundtrips stable IDs including unknown bookmarks and deduplicates', () => {
   const ids = [data.papers[0].id, 'eccv-2026-999999', 'eccv-2026-00023'];
-  const url = new URL(transferUrl('http://192.168.1.10:3001/?old=yes#old', [...ids, ids[0]]));
+  const url = new URL(
+    transferUrl('http://192.168.1.10:3001/?old=yes#old', [...ids, ids[0]]),
+  );
   assert.equal(url.pathname, '/saved');
   assert.equal(url.search, '');
   assert.deepEqual(decodeTransfer(url.hash), ids);
-  assert.deepEqual(transferSummary(ids, [ids[0]], new Set([ids[0]])), {added:2, existing:1, unavailable:2});
+  assert.deepEqual(transferSummary(ids, [ids[0]], new Set([ids[0]])), {
+    added: 2,
+    existing: 1,
+    unavailable: 2,
+  });
   assert.equal(decodeTransfer('#unrelated'), null);
 });
 void test('invalid QR imports do not mutate saved state; confirmed transfers merge repeatedly', () => {
   storage.setSaved([data.papers[0].id]);
   const before = [...storage.getSaved()];
-  for (const bad of ['#draftbox=2.123', '#draftbox=1.', '#draftbox=1.abc', '#draftbox=1.123..456', '#draftbox=1.' + '9'.repeat(60000)]) {
-    assert.throws(() => {const ids = decodeTransfer(bad); storage.importProfile(profile(ids));});
+  for (const bad of [
+    '#draftbox=2.123',
+    '#draftbox=1.',
+    '#draftbox=1.abc',
+    '#draftbox=1.123..456',
+    '#draftbox=1.' + '9'.repeat(60000),
+  ]) {
+    assert.throws(() => {
+      const ids = decodeTransfer(bad);
+      storage.importProfile(profile(ids));
+    });
     assert.deepEqual(storage.getSaved(), before);
   }
-  const incoming = decodeTransfer(encodeTransfer([data.papers[1].id, 'eccv-2026-999999']));
+  const incoming = decodeTransfer(
+    encodeTransfer([data.papers[1].id, 'eccv-2026-999999']),
+  );
   assert.deepEqual(storage.getSaved(), before); // preview does not save
   storage.importProfile(profile(incoming));
   storage.importProfile(profile(incoming));
   assert.deepEqual(storage.getSaved(), [...before, ...incoming]);
 });
 void test('QR generation rejects unreachable addresses, unsafe schemes, and oversized lists', async () => {
-  const ids = data.papers.slice(0, 80).map(p => p.id);
-  for (const address of ['http://localhost:3000', 'http://127.0.0.1', 'http://[::1]', 'http://0.0.0.0', 'javascript:alert(1)', 'https://user:pass@example.com'])
+  const ids = data.papers.slice(0, 80).map((p) => p.id);
+  for (const address of [
+    'http://localhost:3000',
+    'http://127.0.0.1',
+    'http://[::1]',
+    'http://0.0.0.0',
+    'javascript:alert(1)',
+    'https://user:pass@example.com',
+  ])
     assert.throws(() => transferUrl(address, ids));
   assert.throws(() => transferUrl('https://example.com', []));
-  assert.throws(() => transferUrl('https://example.com', data.papers.map(p => p.id)));
+  assert.throws(() =>
+    transferUrl(
+      'https://example.com',
+      data.papers.map((p) => p.id),
+    ),
+  );
   const QRCode = (await import('qrcode')).default;
-  const qr = QRCode.create(transferUrl('https://example.com', ids), {errorCorrectionLevel:'M'});
+  const qr = QRCode.create(transferUrl('https://example.com', ids), {
+    errorCorrectionLevel: 'M',
+  });
   assert.ok(qr.modules.size > 0);
   assert.ok(qr.version <= 25);
 });
 
 void test('sourced abstracts are searchable and malformed provenance is rejected', () => {
-  const paper = data.papers.find(p => p.id === 'eccv-2026-3136');
-  assert.ok(paper.abstract.includes('geometrically consistent generation across viewpoints'));
+  const paper = data.papers.find((p) => p.id === 'eccv-2026-3136');
+  assert.ok(
+    paper.abstract.includes(
+      'geometrically consistent generation across viewpoints',
+    ),
+  );
   assert.equal(paper.abstractSource.name, 'arxiv');
-  assert.ok(createSearch(data)('geometrically consistent generation across viewpoints').some(p => p.id === paper.id));
-  for (const source of [null, {...paper.abstractSource, url:'https://arxiv.org.evil.com/abs/123'}, {...paper.abstractSource, retrievedAt:'invalid'}]) {
+  assert.ok(
+    createSearch(data)(
+      'geometrically consistent generation across viewpoints',
+    ).some((p) => p.id === paper.id),
+  );
+  for (const source of [
+    null,
+    { ...paper.abstractSource, url: 'https://arxiv.org.evil.com/abs/123' },
+    { ...paper.abstractSource, retrievedAt: 'invalid' },
+  ]) {
     const broken = structuredClone(data);
-    broken.papers.find(p => p.id === paper.id).abstractSource = source;
+    broken.papers.find((p) => p.id === paper.id).abstractSource = source;
     assert.throws(() => validateDataset(broken));
   }
 });

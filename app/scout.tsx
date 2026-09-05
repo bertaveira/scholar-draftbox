@@ -21,6 +21,8 @@ import {
   WifiOff,
   ChevronRight,
   Check,
+  Sparkles,
+  X,
 } from 'lucide-react';
 import {
   Select,
@@ -63,7 +65,18 @@ import {
   sortPosters,
 } from '@/lib/conference';
 import {
+  PersonalizedSuggestion,
+  RecommendationData,
+  rankPersonalizedSuggestions,
+  similarPapers,
+} from '@/lib/recommendations';
+import {
+  clearDismissedRecommendations,
+  dismissRecommendation,
+  getDismissedRecommendations,
+  getRecommendationStorageIssue,
   getSaved,
+  getServerDismissedRecommendations,
   getServerSaved,
   getStorageIssue,
   initializeStorage,
@@ -72,6 +85,7 @@ import {
   importProfile,
 } from '@/lib/storage';
 import { loadConference } from '@/lib/loader';
+import { loadRecommendations } from '@/lib/recommendation-loader';
 import { registerTools, ModelContext } from '@/lib/webmcp';
 function Filter({
   label,
@@ -149,7 +163,7 @@ export default function Scout({
   view = 'explore',
   sessionId,
 }: {
-  view?: 'explore' | 'saved' | 'session';
+  view?: 'explore' | 'saved' | 'suggestions' | 'session';
   sessionId?: string;
 }) {
   const [data, setData] = useState<Dataset | null>(null),
@@ -162,10 +176,26 @@ export default function Scout({
     [offline, setOffline] = useState(false),
     [loading, setLoading] = useState(true),
     [allSession, setAllSession] = useState(false),
-    [offlineReady, setOfflineReady] = useState(false);
+    [offlineReady, setOfflineReady] = useState(false),
+    [recommendations, setRecommendations] = useState<RecommendationData | null>(
+      null,
+    ),
+    [recommendationLoading, setRecommendationLoading] = useState(false),
+    [recommendationError, setRecommendationError] = useState('');
   const saved = useSyncExternalStore(subscribe, getSaved, getServerSaved),
+    dismissedRecommendations = useSyncExternalStore(
+      subscribe,
+      getDismissedRecommendations,
+      getServerDismissedRecommendations,
+    ),
     storageIssue = useSyncExternalStore(subscribe, getStorageIssue, () => ''),
+    recommendationStorageIssue = useSyncExternalStore(
+      subscribe,
+      getRecommendationStorageIssue,
+      () => '',
+    ),
     fileInput = useRef<HTMLInputElement>(null);
+  const needsRecommendations = view === 'suggestions' || detail !== null;
   async function load() {
     setLoading(true);
     setError('');
@@ -202,6 +232,37 @@ export default function Scout({
       (document as Document & { modelContext?: ModelContext }).modelContext,
     );
   }, [data]);
+  useEffect(() => {
+    if (
+      !data ||
+      !needsRecommendations ||
+      recommendations?.datasetVersion === data.version
+    )
+      return;
+    let active = true;
+    void Promise.resolve().then(() => {
+      if (!active) return;
+      setRecommendationLoading(true);
+      setRecommendationError('');
+      setRecommendations(null);
+      loadRecommendations(data)
+        .then((value) => {
+          if (active) setRecommendations(value);
+        })
+        .catch((recommendationLoadError: Error) => {
+          if (active) {
+            setRecommendations(null);
+            setRecommendationError(recommendationLoadError.message);
+          }
+        })
+        .finally(() => {
+          if (active) setRecommendationLoading(false);
+        });
+    });
+    return () => {
+      active = false;
+    };
+  }, [data, needsRecommendations, recommendations?.datasetVersion]);
   useEffect(() => {
     if (
       !(process.env.NODE_ENV === 'production') ||
@@ -251,6 +312,30 @@ export default function Scout({
   const grouped = useMemo(
     () => (data ? groupSaved(data, saved) : null),
     [data, saved],
+  );
+  const papersById = useMemo(
+    () => new Map(data?.papers.map((paper) => [paper.id, paper]) || []),
+    [data],
+  );
+  const personalizedSuggestions = useMemo(
+    () =>
+      data && recommendations
+        ? rankPersonalizedSuggestions(
+            data,
+            recommendations,
+            saved,
+            dismissedRecommendations,
+            8,
+          )
+        : [],
+    [data, recommendations, saved, dismissedRecommendations],
+  );
+  const detailSimilar = useMemo(
+    () =>
+      data && recommendations && detail
+        ? similarPapers(data, recommendations, detail.id, 5)
+        : [],
+    [data, recommendations, detail],
   );
   const sessionRows = useMemo(
     () =>
@@ -362,6 +447,43 @@ export default function Scout({
       </article>
     );
   }
+  function suggestionCard(suggestion: PersonalizedSuggestion) {
+    const contributorTitles = suggestion.contributingSavedPaperIds
+      .map((paperId) => papersById.get(paperId)?.title)
+      .filter((title): title is string => Boolean(title));
+    return (
+      <article className="suggestion" key={suggestion.paper.id}>
+        <div className="suggestion-body">
+          <div className="topic">
+            {suggestion.paper.topics[0] || 'ECCV 2026'}
+          </div>
+          <h3>
+            <button onClick={() => setDetail(suggestion.paper)}>
+              {suggestion.paper.title}
+            </button>
+          </h3>
+          <p>
+            Similar to{' '}
+            {contributorTitles.length
+              ? contributorTitles.slice(0, 2).join(' and ')
+              : 'your saved papers'}
+            .
+          </p>
+        </div>
+        <div className="suggestion-actions">
+          {saveButton(suggestion.paper)}
+          <button
+            className="dismiss-suggestion"
+            aria-label={`Dismiss suggestion: ${suggestion.paper.title}`}
+            onClick={() => dismissRecommendation(suggestion.paper.id)}
+          >
+            <X size={16} />
+            <span>Not for me</span>
+          </button>
+        </div>
+      </article>
+    );
+  }
   function empty(title: string, description: string) {
     return (
       <Empty className="empty-panel">
@@ -444,6 +566,13 @@ export default function Scout({
             Explore
           </a>
           <a
+            className={view === 'suggestions' ? 'active' : ''}
+            aria-current={view === 'suggestions' ? 'page' : undefined}
+            href="/suggestions"
+          >
+            Suggestions
+          </a>
+          <a
             className={view === 'saved' ? 'active' : ''}
             aria-current={view === 'saved' ? 'page' : undefined}
             href="/saved"
@@ -462,7 +591,9 @@ export default function Scout({
           <div className="eyebrow">
             {view === 'saved'
               ? 'YOUR PERSONAL SHORTLIST'
-              : 'IN THE POSTER HALL'}
+              : view === 'suggestions'
+                ? 'PICKED FROM YOUR INTERESTS'
+                : 'IN THE POSTER HALL'}
           </div>
         )}
         <div className="heading-row">
@@ -470,17 +601,21 @@ export default function Scout({
             <h1>
               {view === 'saved'
                 ? 'Your very good pile.'
-                : view === 'session'
-                  ? session?.name ||
-                    (loading ? 'Loading session…' : 'Session not found')
-                  : 'We have Scholar Inbox at home.'}
+                : view === 'suggestions'
+                  ? 'A few papers escaped your pile.'
+                  : view === 'session'
+                    ? session?.name ||
+                      (loading ? 'Loading session…' : 'Session not found')
+                    : 'We have Scholar Inbox at home.'}
             </h1>
             <p className="intro">
               {view === 'saved'
                 ? 'Your saved papers, arranged around the conference.'
-                : view === 'session' && session
-                  ? `${dayLabel(session.startsAt)} · ${timeLabel(session)} · ${session.room || 'Room not available'}`
-                  : 'Browse ECCV 2026, save your favourites, and find their posters.'}
+                : view === 'suggestions'
+                  ? 'Private, on-device suggestions based on the papers you saved.'
+                  : view === 'session' && session
+                    ? `${dayLabel(session.startsAt)} · ${timeLabel(session)} · ${session.room || 'Room not available'}`
+                    : 'Browse ECCV 2026, save your favourites, and find their posters.'}
             </p>
           </div>
           <div className="transfer">
@@ -528,6 +663,11 @@ export default function Scout({
             {storageIssue}
           </p>
         )}
+        {recommendationStorageIssue && (
+          <p className="notice" role="alert">
+            {recommendationStorageIssue}
+          </p>
+        )}
         {notice && (
           <output className="notice">
             {notice}
@@ -549,7 +689,7 @@ export default function Scout({
           </p>
         )}
         <div className={view === 'explore' ? 'browse-layout' : ''}>
-          {view !== 'saved' && (
+          {(view === 'explore' || view === 'session') && (
             <>
               <label className="searchbox">
                 <Search />
@@ -741,7 +881,66 @@ export default function Scout({
               </Tabs>
             </>
           )}
-          {view !== 'saved' && data && (
+          {view === 'suggestions' && data && (
+            <section
+              className="personalized-suggestions suggestions-page"
+              aria-label="Personalized paper suggestions"
+            >
+              {saved.length === 0 ? (
+                empty(
+                  'Save a few papers first',
+                  'Suggestions learn from your shortlist without sending it anywhere. Find papers in Explore, then come back here.',
+                )
+              ) : (
+                <>
+                  <div className="suggestions-heading">
+                    <div>
+                      <div className="eyebrow">
+                        <Sparkles size={14} /> YOU MAY ALSO LIKE
+                      </div>
+                      <h2>
+                        Following {saved.length}{' '}
+                        {saved.length === 1 ? 'saved paper' : 'saved papers'}
+                      </h2>
+                      <p>
+                        Separate interests are mixed fairly. Already saved and
+                        dismissed papers stay out of the list.
+                      </p>
+                    </div>
+                    {dismissedRecommendations.length > 0 && (
+                      <button onClick={clearDismissedRecommendations}>
+                        Show dismissed again
+                      </button>
+                    )}
+                  </div>
+                  {recommendationLoading && (
+                    <output className="recommendation-status">
+                      Finding related papers…
+                    </output>
+                  )}
+                  {recommendationError && !recommendationLoading && (
+                    <output className="recommendation-status">
+                      {recommendationError}
+                    </output>
+                  )}
+                  {!recommendationLoading &&
+                    !recommendationError &&
+                    personalizedSuggestions.length === 0 && (
+                      <p className="recommendation-status">
+                        No more suggestions right now. Dismissed papers stay
+                        hidden only on this device.
+                      </p>
+                    )}
+                  {personalizedSuggestions.length > 0 && (
+                    <div className="suggestion-list">
+                      {personalizedSuggestions.map(suggestionCard)}
+                    </div>
+                  )}
+                </>
+              )}
+            </section>
+          )}
+          {(view === 'explore' || view === 'session') && data && (
             <>
               {view === 'session' && session && (
                 <div className="session-switch">
@@ -925,6 +1124,25 @@ export default function Scout({
                     : ''}
                   <ArrowUpRight size={14} />
                 </a>
+              )}
+              <h3>Similar papers</h3>
+              {recommendationLoading && (
+                <p className="recommendation-status">Finding related papers…</p>
+              )}
+              {recommendationError && !recommendationLoading && (
+                <p className="recommendation-status">
+                  Similar papers unavailable.
+                </p>
+              )}
+              {detailSimilar.length > 0 && (
+                <div className="detail-similar">
+                  {detailSimilar.map(({ paper }) => (
+                    <button key={paper.id} onClick={() => setDetail(paper)}>
+                      <b>{paper.title}</b>
+                      <span>{paper.topics[0] || 'ECCV 2026'}</span>
+                    </button>
+                  ))}
+                </div>
               )}
               <h3>At the conference</h3>
               {(byPaper.get(detail.id) || []).map((p) => {
