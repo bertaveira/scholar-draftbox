@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 const worker = await readFile('dist/client/sw.js', 'utf8');
 const files = JSON.parse(worker.match(/const PRECACHE=(.*);\n/)[1]);
 const origin = 'http://localhost:3000';
@@ -8,7 +9,13 @@ for (let i = 0; i < files.length; i += 6) {
       const response = await fetch(origin + file);
       if (!response.ok) throw Error(`${file}: ${response.status}`);
       const actual = Buffer.from(await response.arrayBuffer());
-      const expected = await readFile('dist/client' + file);
+      const outputPath =
+        file === '/'
+          ? '/index.html'
+          : path.extname(file)
+            ? file
+            : file + '.html';
+      const expected = await readFile('dist/client' + outputPath);
       if (!actual.equals(expected)) throw Error(`Asset mismatch: ${file}`);
     }),
   );

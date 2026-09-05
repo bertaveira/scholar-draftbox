@@ -6,9 +6,9 @@ void test('service worker installs full shell, navigates offline, serves saved d
   const handlers = new Map(),
     stores = new Map();
   const precache = [
-    '/index.html',
-    '/saved.html',
-    '/session/session-1.html',
+    '/',
+    '/saved',
+    '/session/session-1',
     '/session/session-1.rsc',
     '/404.html',
     '/data/conference.json',
@@ -105,11 +105,12 @@ void test('service worker installs full shell, navigates offline, serves saved d
     });
     return response;
   }
-  assert.equal(await (await get('/saved')).text(), '/saved.html');
-  assert.equal(await (await get('/session/session-1?all=1')).text(), '/session/session-1.html');
+  assert.equal(await (await get('/saved')).text(), '/saved');
+  assert.equal(await (await get('/saved/')).text(), '/saved');
+  assert.equal(await (await get('/session/session-1?all=1')).text(), '/session/session-1');
   assert.equal(
     await (await get('/session/session-1')).text(),
-    '/session/session-1.html',
+    '/session/session-1',
   );
   assert.equal(
     await (

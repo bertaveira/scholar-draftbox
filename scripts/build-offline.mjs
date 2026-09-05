@@ -13,7 +13,15 @@ async function walk(dir) {
   ).flat();
 }
 const files = (await walk(root)).filter((f) => !f.endsWith("/phone-preview.json") && !f.endsWith("/sw.js") && !f.endsWith(".map")).sort();
-const urls = files.map((f) => "/" + path.relative(root, f).split(path.sep).join("/"));
+const urls = files.map((f) => {
+  const url = "/" + path.relative(root, f).split(path.sep).join("/");
+  // Cloudflare's automatic HTML handling redirects `page.html` to `page`.
+  // Precache the canonical URL so the service worker never stores and replays
+  // a redirect back to the navigation URL.
+  if (url === "/index.html") return "/";
+  if (url !== "/404.html" && url.endsWith(".html")) return url.slice(0, -5);
+  return url;
+});
 const hash = createHash("sha256");
 for (const f of files) hash.update(await readFile(f));
 const version = hash.digest("hex").slice(0, 16);

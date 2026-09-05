@@ -65,8 +65,8 @@ self.addEventListener('fetch', (event) => {
         request.headers.get('accept')?.includes('text/x-component');
       if (rsc && !key.endsWith('.rsc'))
         key = key === '/' ? '/index.rsc' : key.replace(/\/$/, '') + '.rsc';
-      else if (request.mode === 'navigate' && !key.endsWith('.html'))
-        key = key === '/' ? '/index.html' : key.replace(/\/$/, '') + '.html';
+      else if (request.mode === 'navigate')
+        key = key === '/' ? '/' : key.replace(/\/$/, '');
       const cached = await cache.match(key);
       if (cached) return cached;
       try {
