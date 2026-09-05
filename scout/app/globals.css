@@ -928,7 +928,7 @@ footer a {
   .paperbody {
     grid-column: 2;
   }
-  .paper > .save {
+  .paper > .paper-actions {
     grid-column: 2;
     justify-self: start;
     padding: 8px 11px;
@@ -937,7 +937,7 @@ footer a {
   .paper:not(:has(.poster-number)) .paperbody {
     grid-column: 1/-1;
   }
-  .paper:not(:has(.poster-number)) > .save {
+  .paper:not(:has(.poster-number)) > .paper-actions {
     grid-column: 1/-1;
   }
   .topic {
@@ -1561,4 +1561,50 @@ footer a {
   border: 1px solid #d9ba96;
   border-radius: 6px;
   font-size: 14px;
+}
+
+.paper-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  flex-shrink: 0;
+  align-self: start;
+}
+.arxiv-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 44px;
+  padding: 8px 11px;
+  border: 1px solid #d8c6b8;
+  border-radius: 6px;
+  background: #fffaf5;
+  color: #9b3f20;
+  font-size: 14px;
+  text-decoration: none;
+}
+.arxiv-button:hover {
+  background: #fff0e5;
+  border-color: #b6805a;
+}
+.detail-body > .paper-actions {
+  width: fit-content;
+  min-width: 105px;
+}
+
+.abstract-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: #9b3f20;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.abstract-source:hover {
+  text-decoration: underline;
+}
+.abstract {
+  overflow-wrap: anywhere;
 }

@@ -1,0 +1,10 @@
+{
+  "source": "OpenAlex",
+  "pilotUnresolvedCount": 28,
+  "processed": 28,
+  "counts": {
+    "no_results": 12,
+    "review": 16
+  },
+  "generatedAt": "2026-09-05T11:03:09.184325+00:00"
+}

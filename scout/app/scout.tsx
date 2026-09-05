@@ -292,6 +292,24 @@ export default function Scout({
       </button>
     );
   }
+  function paperActions(p: Paper) {
+    return (
+      <div className="paper-actions">
+        {saveButton(p)}
+        {p.paperUrl?.startsWith('https://arxiv.org/abs/') && (
+          <a
+            className="arxiv-button"
+            href={p.paperUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Read ${p.title} on arXiv (opens in a new tab)`}
+          >
+            arXiv <ArrowUpRight size={15} />
+          </a>
+        )}
+      </div>
+    );
+  }
   function card(p: Paper, inSession?: Session) {
     const all = byPaper.get(p.id) || [];
     const appearance =
@@ -340,7 +358,7 @@ export default function Scout({
             )}
           </div>
         </div>
-        {saveButton(p)}
+        {paperActions(p)}
       </article>
     );
   }
@@ -856,7 +874,7 @@ export default function Scout({
           </SheetHeader>
           {detail && (
             <div className="detail-body">
-              {saveButton(detail)}
+              {paperActions(detail)}
               <div className="detail-topics">
                 {detail.topics.map((t) => (
                   <span key={t}>{t}</span>
@@ -865,8 +883,22 @@ export default function Scout({
               <h3>Abstract</h3>
               <p className="abstract">
                 {detail.abstract ||
-                  'An abstract is not available in the official dataset. Open the official paper page for the latest information.'}
+                  'No abstract is available yet. Check the official paper page for updates.'}
               </p>
+              {detail.abstract && detail.abstractSource && (
+                <a
+                  className="abstract-source"
+                  href={detail.abstractSource.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Abstract from arXiv
+                  {detail.abstractSource.version
+                    ? ` · v${detail.abstractSource.version}`
+                    : ''}
+                  <ArrowUpRight size={14} />
+                </a>
+              )}
               <h3>At the conference</h3>
               {(byPaper.get(detail.id) || []).map((p) => {
                 const s = p.sessionId ? sessions.get(p.sessionId) : undefined;
@@ -904,16 +936,17 @@ export default function Scout({
               >
                 Official paper page <ArrowUpRight size={16} />
               </a>
-              {detail.paperUrl && (
-                <a
-                  className="official-link"
-                  href={detail.paperUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Read paper <ArrowUpRight size={16} />
-                </a>
-              )}
+              {detail.paperUrl &&
+                !detail.paperUrl.startsWith('https://arxiv.org/abs/') && (
+                  <a
+                    className="official-link"
+                    href={detail.paperUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Read paper <ArrowUpRight size={16} />
+                  </a>
+                )}
             </div>
           )}
         </SheetContent>

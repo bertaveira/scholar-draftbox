@@ -356,3 +356,15 @@ void test('QR generation rejects unreachable addresses, unsafe schemes, and over
   assert.ok(qr.modules.size > 0);
   assert.ok(qr.version <= 25);
 });
+
+void test('sourced abstracts are searchable and malformed provenance is rejected', () => {
+  const paper = data.papers.find(p => p.id === 'eccv-2026-3136');
+  assert.ok(paper.abstract.includes('geometrically consistent generation across viewpoints'));
+  assert.equal(paper.abstractSource.name, 'arxiv');
+  assert.ok(createSearch(data)('geometrically consistent generation across viewpoints').some(p => p.id === paper.id));
+  for (const source of [null, {...paper.abstractSource, url:'https://arxiv.org.evil.com/abs/123'}, {...paper.abstractSource, retrievedAt:'invalid'}]) {
+    const broken = structuredClone(data);
+    broken.papers.find(p => p.id === paper.id).abstractSource = source;
+    assert.throws(() => validateDataset(broken));
+  }
+});

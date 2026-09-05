@@ -1,0 +1,12 @@
+{
+  "inputPath": "scout/research/abstract-enrichment/review-queue.jsonl",
+  "inputStatus": "review",
+  "reviewedRows": 68,
+  "categoryCounts": {
+    "accept_match": 67,
+    "reject_match": 1,
+    "unresolved": 0
+  },
+  "acceptedSource": "arxiv",
+  "notes": "Adjudicated solely from stored official metadata, arXiv candidate evidence, OpenAlex artifacts/caches, and stored source URLs; no PDFs scraped and no new API requests made."
+}

@@ -166,5 +166,10 @@ def main():
         if args.source_dir: raw[name]=(args.source_dir/('eccv-'+name+('.json' if name in ('events','abstracts') else '.html'))).read_text()
         else:
             with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'ECCV-Scout/0.1 community conference planner'}),timeout=60) as r: raw[name]=r.read().decode()
-    data=normalize(raw);publish(data,Path(__file__).resolve().parents[1]/'public/data/conference.json'); print(json.dumps(data['coverage'],indent=2))
+    data=normalize(raw)
+    enrichment=Path(__file__).resolve().parents[1]/'research/abstract-enrichment'
+    if (enrichment/'enrichment-records.jsonl').exists():
+        from apply_arxiv_links import apply_links, accepted_links
+        data=apply_links(data,accepted_links(enrichment))
+    publish(data,Path(__file__).resolve().parents[1]/'public/data/conference.json'); print(json.dumps(data['coverage'],indent=2))
 if __name__=='__main__': main()

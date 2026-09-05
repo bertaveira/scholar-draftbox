@@ -40,3 +40,6 @@ next-env.d.ts
 /.test-output/
 *.tsbuildinfo
 __pycache__/
+
+# Resumable scrape checkpoint; accepted records and matching evidence are versioned.
+/research/abstract-enrichment/strict-results.jsonl

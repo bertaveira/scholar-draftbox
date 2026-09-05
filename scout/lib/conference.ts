@@ -6,6 +6,12 @@ export type Paper = {
   authors: string[];
   topics: string[];
   abstract: string | null;
+  abstractSource?: {
+    name: 'arxiv';
+    url: string;
+    retrievedAt: string;
+    version: string | null;
+  };
   officialUrl: string;
   paperUrl: string | null;
 };
@@ -166,6 +172,14 @@ export function validateDataset(value: unknown): Dataset {
       !Array.isArray(p.topics) ||
       p.topics.some((t) => typeof t !== 'string') ||
       !nullableString(p.abstract) ||
+      (p.abstractSource !== undefined &&
+        (!p.abstractSource ||
+          p.abstractSource.name !== 'arxiv' ||
+          !/^https:\/\/arxiv\.org\/abs\/(?:\d{4}\.\d{4,5}|[a-z-]+(?:\.[A-Z]{2})?\/\d{7})(?:v\d+)?$/.test(
+            p.abstractSource.url,
+          ) ||
+          !Number.isFinite(Date.parse(p.abstractSource.retrievedAt)) ||
+          !nullableString(p.abstractSource.version))) ||
       !safeUrl(p.officialUrl) ||
       (p.paperUrl !== null && !safeUrl(p.paperUrl))
     )

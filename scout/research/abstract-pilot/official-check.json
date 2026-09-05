@@ -1,0 +1,25 @@
+{
+  "retrievedAt": "2026-09-05T10:45:52.405767+00:00",
+  "abstractEndpoint": "https://eccv.ecva.net/static/virtual/data/eccv-2026-abstracts.json",
+  "abstractEndpointResult": {},
+  "pages": [
+    {
+      "paperId": "eccv-2026-5542",
+      "url": "https://eccv.ecva.net/virtual/2026/poster/5542",
+      "arxivLinks": [],
+      "abstractContentElements": []
+    },
+    {
+      "paperId": "eccv-2026-4242",
+      "url": "https://eccv.ecva.net/virtual/2026/poster/4242",
+      "arxivLinks": [],
+      "abstractContentElements": []
+    },
+    {
+      "paperId": "eccv-2026-3478",
+      "url": "https://eccv.ecva.net/virtual/2026/poster/3478",
+      "arxivLinks": [],
+      "abstractContentElements": []
+    }
+  ]
+}

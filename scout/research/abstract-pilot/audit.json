@@ -1,0 +1,66 @@
+{
+  "method": "Assistant spot review of retrieved titles, author lists and abstract openings; not an independent full-text identity audit or a recall measurement. No per-paper model API calls.",
+  "clearMatchesReviewed": [
+    "eccv-2026-3810",
+    "eccv-2026-4070",
+    "eccv-2026-4729",
+    "eccv-2026-3290",
+    "eccv-2026-5446",
+    "eccv-2026-5453",
+    "eccv-2026-3984",
+    "eccv-2026-4003"
+  ],
+  "observedMismatchesInSpotReview": 0,
+  "authorDifferenceCases": [
+    {
+      "paperId": "eccv-2026-5238",
+      "note": "Official list has KunbinChen KunbinChen; arXiv has Kunbin Chen. Seven other authors match."
+    },
+    {
+      "paperId": "eccv-2026-4492",
+      "note": "arXiv list omits Mingyu Ding from the official list. Exact title and eight matching authors support same work; preprint version differs."
+    },
+    {
+      "paperId": "eccv-2026-3310",
+      "note": "Yingcong Chen versus Ying-Cong Chen; other twelve names match."
+    }
+  ],
+  "reviewQueueAssessment": [
+    {
+      "paperId": "eccv-2026-3333",
+      "decision": "supported_match",
+      "note": "Exact title; Brent Griffin/Jason Corso versus Brent A. Griffin/Jason J. Corso. Middle initials account for conservative matcher rejection. Keep machine classification unchanged for measuring pilot."
+    },
+    {
+      "paperId": "eccv-2026-5519",
+      "decision": "probable_match_requires_confirmation",
+      "note": "PhyMAGIC has all three authors identical; only LLM versus VLM differs in title. Likely same work but preserve as review until confirmed."
+    },
+    {
+      "paperId": "eccv-2026-5542",
+      "decision": "reject_candidates",
+      "note": "All four fallback results have different titles and zero matching full author names. No supported match."
+    }
+  ],
+  "authorDifferenceCasesReviewed": [
+    "eccv-2026-5238",
+    "eccv-2026-4492",
+    "eccv-2026-3310",
+    "eccv-2026-3354",
+    "eccv-2026-3879",
+    "eccv-2026-5237",
+    "eccv-2026-5240",
+    "eccv-2026-3296",
+    "eccv-2026-5233",
+    "eccv-2026-4762",
+    "eccv-2026-5290",
+    "eccv-2026-4876"
+  ],
+  "authorDifferenceReviewConclusion": "All twelve have exact normalized titles and substantial author overlap. Differences include punctuation, middle names, malformed official names and changed author lists. No obvious wrong-work match observed; this does not certify identical manuscript versions.",
+  "summary": {
+    "automaticClear": 70,
+    "additionalSupportedByMetadataReview": 1,
+    "probableNeedsConfirmation": 1,
+    "unresolved": 28
+  }
+}

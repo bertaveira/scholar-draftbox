@@ -1,0 +1,18 @@
+{
+  "datasetVersion": "ae6392c8841f5e10",
+  "paperCount": 2863,
+  "processedRows": 2863,
+  "generatedAt": "2026-09-05T17:26:37.943511+00:00",
+  "counts": {
+    "clear": 1813,
+    "no_results": 982,
+    "review": 68
+  },
+  "requestsThisRun": 72,
+  "artifacts": {
+    "records": "enrichment-records.jsonl",
+    "evidence": "matching-evidence.jsonl",
+    "review": "review-queue.jsonl",
+    "state": "strict-results.jsonl"
+  }
+}

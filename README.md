@@ -32,7 +32,7 @@ PATH=/Users/bertaveira/.cache/codex-runtimes/codex-primary-runtime/dependencies/
 ## What works
 
 - Browser keyword search with accent-insensitive matching, title priority, and combined topic/day/session/presentation filters.
-- Detail panel with authors, available abstract, official links, and all known presentations.
+- Detail panel with authors, available abstract, official links, and all known presentations. Accepted arXiv matches appear below Save on paper cards and in the detail panel.
 - Saved offers Schedule and Paper list views. Schedule shows posters, orals, spotlight orals, keynotes, and breaks in day tabs, with a time axis, proportional event lengths, and overlapping events side by side. The timetable scrolls horizontally on small screens. Sessions with saved papers are highlighted; empty paper sessions open with all papers visible. Other events link to official details.
 - Filter menus size to their content up to a viewport-safe maximum; long labels wrap. All Explore filters support multiple choices (OR within a group, AND across groups). Clear individual groups or remove selected chips.
 - Opened sessions offer multi-select topics scoped to that session, working together with keyword search and the saved/all-papers switch.
@@ -45,7 +45,7 @@ Saving a paper is a bookmark, not a promise to attend. There are no conflict war
 
 ## Data and source precedence
 
-The September 5, 2026 snapshot contains **2,863 papers**, **2,863 posters**, **28 oral appearances**, **135 spotlight appearances**, and **56 sessions/events**. Every paper has a poster number and session assignment. All abstracts are currently unavailable from the official published dataset; the app says so instead of inventing summaries.
+The September 5, 2026 snapshot contains **2,863 papers**, **2,863 posters**, **28 oral appearances**, **135 spotlight appearances**, and **56 sessions/events**. Every paper has a poster number and session assignment. The official abstract feed is empty; accepted arXiv matches supply **1,880 abstracts**, indexed by search and labeled with their source/version in paper details. Unmatched papers retain a missing-abstract state.
 
 Official sources:
 
@@ -102,3 +102,5 @@ In Saved, choose **Send to phone**, scan the code with the phone camera, and con
 For local testing, build the app and run `npm run preview:lan` from `scout/`. Keep the laptop running and use the same Wi-Fi on both devices. This starts a static preview on port 3001, listening on the local network, and prints the phone address. It writes `dist/client/phone-preview.json` so the existing localhost preview can automatically use that address for QR transfer. This generated configuration is excluded from offline caching and source control. Restart the LAN preview after rebuilding or changing networks. The dialog uses the current site origin automatically when published. Network isolation or a firewall may prevent access.
 
 Local HTTP transfer and bookmarking work on the phone, but service workers/offline caching require HTTPS (or localhost). Public hosting remains a separate step. Bookmarks belong to the exact browser origin, so changing address/port later requires another import.
+
+Accepted arXiv links are applied with `npm run data:links` in `scout/` and reapplied during official ingestion when the enrichment artifacts are present. The snapshot currently includes 1,880 links (1,813 strict matches plus 67 accepted review matches). The import validates official titles, IDs, source URLs, and review evidence before atomic publication; abstracts and source/version provenance are also imported. Existing official abstracts take precedence over arXiv text. The 67 accepted review abstracts are retained in `reviewed-abstracts.jsonl`, recovered from cached arXiv responses without new requests.

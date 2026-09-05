@@ -1,0 +1,1991 @@
+{
+  "datasetVersion": "ae6392c8841f5e10",
+  "seed": 20260905,
+  "selection": "80 random papers plus 20 short/non-ASCII/math titles, without overlap",
+  "papers": [
+    {
+      "id": "eccv-2026-5542",
+      "officialId": "5542",
+      "title": "Reinforcing Vision-Language Models for Image Quality Assessment with Grounding Process Rewards",
+      "authors": [
+        "Jingwei Liu",
+        "Hongyan Li",
+        "Bo Liu",
+        "Tianlin Zhang",
+        "Yifei Qian",
+        "Congyang Zhao",
+        "Junhong Liu",
+        "Yang Cai",
+        "Ling Yang"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5542",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4242",
+      "officialId": "4242",
+      "title": "RTE-FM-Dehazer: Radiative Transfer Equation Inspired Flow Matching for Real-World Image Dehazing",
+      "authors": [
+        "Chenfeng Wei",
+        "Chun Wang",
+        "Boyang Zhao",
+        "Si Zuo",
+        "Shenhong WANG",
+        "Chenguang Yang"
+      ],
+      "topics": [
+        "Low-Level Vision, Restoration & Generative Priors"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4242",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3478",
+      "officialId": "3478",
+      "title": "Em-Garde: A Propose-Match Framework for Proactive Streaming Video Understanding",
+      "authors": [
+        "Yikai Zheng",
+        "Xin Ding",
+        "Yifan Yang",
+        "Shiqi Jiang",
+        "Hao Wu",
+        "Qianxi Zhang",
+        "Weijun Wang",
+        "Ting Cao",
+        "Yunxin Liu"
+      ],
+      "topics": [
+        "Video Understanding, Generation and Multimodal Learning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3478",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5511",
+      "officialId": "5511",
+      "title": "SurvMILKD: A Weakly Supervised Survival Analysis Framework for Multi-Teacher Knowledge Distillation using Pathology Foundation Models",
+      "authors": [
+        "Mayur Mallya",
+        "Ali Khajegili Mirabadi",
+        "Hossein Farahani",
+        "Ali Bashashati"
+      ],
+      "topics": [
+        "Computational Imaging, Medical & Scientific Vision"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5511",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5238",
+      "officialId": "5238",
+      "title": "P-MTP: Efficient Document Parsing via Multi-Token Prediction with Progressive Depth Scaling",
+      "authors": [
+        "Le Xiang",
+        "Chenxi Zhai",
+        "Shu Wei",
+        "Jingjing Wu",
+        "Qunyi Xie",
+        "Xiao Tan",
+        "KunbinChen KunbinChen",
+        "Wei He"
+      ],
+      "topics": [
+        "Multimodal, Video & Document Understanding"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5238",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4424",
+      "officialId": "4424",
+      "title": "Social-Mamba: Socially-Aware Trajectory Forecasting with State-Space Models",
+      "authors": [
+        "Po-Chien Luan",
+        "Wuyang Li",
+        "Yang Gao",
+        "Alexandre ALahi"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4424",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5085",
+      "officialId": "5085",
+      "title": "Long-term Traffic Simulation via Structured Autoregressive Modeling",
+      "authors": [
+        "Lingyu XIAO",
+        "Zexin Feng",
+        "Xintao Yan"
+      ],
+      "topics": [
+        "Video Generation, Avatars & Dynamic Worlds"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5085",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3567",
+      "officialId": "3567",
+      "title": "TORA: Topological Representation Alignment for 3D Shape Assembly",
+      "authors": [
+        "Nahyuk Lee",
+        "Zhiang Chen",
+        "Marc Pollefeys",
+        "Sunghwan Hong"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer",
+        "3D Reconstruction, Registration and Scene Modeling"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3567",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5806",
+      "officialId": "5806",
+      "title": "Dynamic-Robust Photometric–Semantic Reconstruction for Open-Vocabulary 3D Scene Understanding",
+      "authors": [
+        "Boyu Cai",
+        "Li Yang",
+        "Yan Xu",
+        "Wei Liu",
+        "Nian Liu",
+        "Sikui Zhang",
+        "Yan Wang",
+        "Chunfeng Yuan",
+        "Weiming Hu"
+      ],
+      "topics": [
+        "3D Reconstruction, Gaussian Splatting & Neural Rendering"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5806",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4070",
+      "officialId": "4070",
+      "title": "RubricRL: Simple Generalizable Rewards for Text-to-Image Generation",
+      "authors": [
+        "Xuelu Feng",
+        "Yunsheng Li",
+        "Ziyu Wan",
+        "Zixuan Gao",
+        "Junsong Yuan",
+        "Dongdong Chen",
+        "Chunming Qiao"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4070",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3304",
+      "officialId": "3304",
+      "title": "Token-Based Affordance Grounding with Large Vision-Language Models",
+      "authors": [
+        "Seung Il Lee",
+        "Qinqian Lei",
+        "Daguang Xu",
+        "Dong Yang",
+        "Robby T. Tan",
+        "Yixin Chen",
+        "Bo Wang"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3304",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4357",
+      "officialId": "4357",
+      "title": "Mitigate Modality-Asymmetric Forgetting via Stabilizing Visual Representations in CLIP-Based Class-Incremental Learning",
+      "authors": [
+        "Yuanhong Zhang",
+        "Yanan Chen",
+        "Xin Zhang",
+        "Zhaoyang Wang",
+        "Weizhan Zhang",
+        "Muyao Yuan",
+        "Hongjin Niu",
+        "LAN MA",
+        "Yuan Gao",
+        "Joey Tianyi Zhou"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4357",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3984",
+      "officialId": "3984",
+      "title": "Revisiting Autoregressive Models for Generative Image Classification",
+      "authors": [
+        "Ilia Sudakov",
+        "Artem Babenko",
+        "Dmitry Baranchuk"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3984",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3656",
+      "officialId": "3656",
+      "title": "Learning Transferable Dynamics Priors from Action to World Modeling",
+      "authors": [
+        "Ze Huang",
+        "Zhang Jiahui",
+        "Hairuo Liu",
+        "Chenxi Zhang",
+        "Ran Cheng",
+        "Li Zhang"
+      ],
+      "topics": [
+        "Embodied AI, Robotics & Autonomous Driving"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3656",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3369",
+      "officialId": "3369",
+      "title": "SSBP: Stage-Specialized Block Pruning for Video Diffusion Models",
+      "authors": [
+        "Mengmeng Ge",
+        "Takashi Isobe",
+        "Dong Zhou",
+        "Dong Li",
+        "Emad Barsoum"
+      ],
+      "topics": [
+        "Low-Level Vision, Restoration & Generative Priors"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3369",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5446",
+      "officialId": "5446",
+      "title": "Puppet-CNN: Continuous Parameter Dynamics for Input-Adaptive Convolutional Networks",
+      "authors": [
+        "Yucheng Xing",
+        "Xin Wang"
+      ],
+      "topics": [
+        "Robustness, Privacy, Learning & Theory"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5446",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4055",
+      "officialId": "4055",
+      "title": "Perceiving Better Moments: Cover Frame Reselection and Enhancement for Live Photos with the Live2K Dataset",
+      "authors": [
+        "Junyu Lou",
+        "Kai Chen",
+        "Weiyi You",
+        "Hui Zeng",
+        "Lei Zhang",
+        "Shuhang Gu"
+      ],
+      "topics": [
+        "Video Generation, Avatars & Dynamic Worlds"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4055",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3295",
+      "officialId": "3295",
+      "title": "Disentangling Pictorial Cue Understanding from Language Bias in VLMs via Depth Ordering Task",
+      "authors": [
+        "Yiqian Liu",
+        "Iuliia Kotseruba",
+        "John K. Tsotsos"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3295",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5925",
+      "officialId": "5925",
+      "title": "VIGA: View-Conditioned and Identity-Guided Adaptation for Aerial-Ground Person Re-Identification",
+      "authors": [
+        "XU ZHANG",
+        "Feng Yining",
+        "ZUYU ZHANG"
+      ],
+      "topics": [
+        "Recognition, Tracking, Re-ID & Anomaly Detection"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5925",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3160",
+      "officialId": "3160",
+      "title": "AnyGround3D: Towards Grounding Any 3D Object in the Wild via 2D-to-3D Lifting",
+      "authors": [
+        "Yingping Liang",
+        "Wenxuan Guo"
+      ],
+      "topics": [
+        "3D Reconstruction, Registration and Scene Modeling"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3160",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4029",
+      "officialId": "4029",
+      "title": "MobileManiBench: Simplifying Model Verification for Mobile Manipulation",
+      "authors": [
+        "Wenbo Wang",
+        "Fangyun Wei",
+        "Qixiu Li",
+        "Xi Chen",
+        "Yaobo Liang",
+        "Chang Xu",
+        "Jiaolong Yang",
+        "Baining Guo"
+      ],
+      "topics": [
+        "Embodied AI, Robotics & Autonomous Driving"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4029",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5555",
+      "officialId": "5555",
+      "title": "ARMS: Anchor–Relational Motion Streaming for Seamless Solo-Social Motion Transitions",
+      "authors": [
+        "Huakun Liu",
+        "Qing Yu",
+        "Kent Fujiwara",
+        "Hideaki Uchiyama",
+        "Kiyoshi Kiyokawa"
+      ],
+      "topics": [
+        "Video Generation, Avatars & Dynamic Worlds"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5555",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5952",
+      "officialId": "5952",
+      "title": "Linguistically-Aligned and Visually-Grounded Preference Optimization for Clinically-Augmented Medical Report Generation",
+      "authors": [
+        "Qiang Hu",
+        "Yuxuan Luo",
+        "Yingjie Guo",
+        "Hao Wang",
+        "Qimei Wang",
+        "Qiang Li",
+        "Zhiwei Wang"
+      ],
+      "topics": [
+        "Computational Imaging, Medical & Scientific Vision"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5952",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5519",
+      "officialId": "5519",
+      "title": "PhyMAGIC: Physical Motion-Aware Generative Inference with Confidence-guided VLM",
+      "authors": [
+        "Siwei Meng",
+        "Yawei Luo",
+        "Ping Liu"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5519",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3810",
+      "officialId": "3810",
+      "title": "Entropy-Controlled Flow Matching",
+      "authors": [
+        "Chika Maduabuchi"
+      ],
+      "topics": [
+        "3D Graphics and Geometric Representations"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3810",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4003",
+      "officialId": "4003",
+      "title": "TinyHistory: Lightweight Video History Embeddings via Two-Stage Context Learning",
+      "authors": [
+        "lvmin zhang",
+        "Shengqu Cai",
+        "Muyang Li",
+        "Chong Zeng",
+        "Beijia Lu",
+        "Anyi Rao",
+        "Song Han",
+        "Gordon Wetzstein",
+        "Maneesh Agrawala"
+      ],
+      "topics": [
+        "Video Understanding, Generation and Multimodal Learning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4003",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5764",
+      "officialId": "5764",
+      "title": "Isotropic Embedding Perturbations for Robust Vision Language Encoders",
+      "authors": [
+        "Hyesong Choi",
+        "Daeun Kim",
+        "Song Park",
+        "Taekyung Kim",
+        "Byeongho Heo",
+        "Sangdoo Yun",
+        "Dongbo Min",
+        "Dongyoon Han"
+      ],
+      "topics": [
+        "Federated, Continual & Efficient Learning; Model Security"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5764",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4492",
+      "officialId": "4492",
+      "title": "From Passive Observer to Active Critic: Reinforcement Learning Elicits Process Reasoning for Robotic Manipulation",
+      "authors": [
+        "Yibin Liu",
+        "Yaxing Lyu",
+        "Daqi Gao",
+        "Zhixuan Liang",
+        "Weiliang Tang",
+        "Shilong Mu",
+        "Xiaokang Yang",
+        "Mingyu Ding",
+        "Yao Mu"
+      ],
+      "topics": [
+        "Video Understanding, Generation and Multimodal Learning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4492",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5845",
+      "officialId": "5845",
+      "title": "CogniCred: A Dataset and Benchmark for Cognitive Credential Forgery Detection",
+      "authors": [
+        "Junchi Li",
+        "Jiasheng Sun",
+        "Weizhi Chen",
+        "Ziwei Wang",
+        "Sheng Zhou",
+        "Jiajun Bu",
+        "Chenfan Qu",
+        "Bohan Yu",
+        "Jian liu",
+        "Weiqiang Wang"
+      ],
+      "topics": [
+        "Multimodal, Video & Document Understanding"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5845",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5507",
+      "officialId": "5507",
+      "title": "Human-like Object Grouping in Self-supervised Vision Transformers",
+      "authors": [
+        "Hossein Adeli",
+        "Seoyoung Ahn",
+        "Andrew Luo",
+        "Mengmi Zhang",
+        "Nikolaus Kriegeskorte",
+        "Gregory Zelinsky"
+      ],
+      "topics": [
+        "Vision Foundation Models: Interpretability and Reasoning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5507",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3310",
+      "officialId": "3310",
+      "title": "Panoramic Affordance Prediction",
+      "authors": [
+        "Zixin Zhang",
+        "Chenfei Liao",
+        "Hongfei Zhang",
+        "Harold Haodong Chen",
+        "Kanghao Chen",
+        "Zichen Wen",
+        "Litao Guo",
+        "Bin Ren",
+        "Xu Zheng",
+        "Yinchuan Li",
+        "Xuming Hu",
+        "Nicu Sebe",
+        "Yingcong Chen"
+      ],
+      "topics": [
+        "Embodied AI, Robotics & Autonomous Driving"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3310",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3534",
+      "officialId": "3534",
+      "title": "Surprise Forcing: What to Remember, When to Skip in Long Video Generation",
+      "authors": [
+        "SHUWEI SHI",
+        "Zhen Li",
+        "Muyao Niu",
+        "Chuanhao Li",
+        "Bo Zheng",
+        "Kaipeng Zhang",
+        "zheng yinqiang"
+      ],
+      "topics": [
+        "Video Understanding, Generation and Multimodal Learning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3534",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4757",
+      "officialId": "4757",
+      "title": "Illuminating Unified Multimodal Model for Free-form Interleaved Text-Image Generation",
+      "authors": [
+        "Chonghuinan Wang",
+        "Zhikai Chen",
+        "Chunwei Wang",
+        "Yecong Wan",
+        "Junwei Yang",
+        "Zhixin Wang",
+        "Wei Zhang",
+        "Jiaqi Xu",
+        "Renjing Pei",
+        "Xiaohe Wu",
+        "FAN LI",
+        "Wangmeng Zuo"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4757",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5697",
+      "officialId": "5697",
+      "title": "Wavelet-based Intra-video Counterfactual Reasoning for Video Question Grounding",
+      "authors": [
+        "Jiasheng Yuan",
+        "Wei Wei"
+      ],
+      "topics": [
+        "Multimodal, Video & Document Understanding"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5697",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3335",
+      "officialId": "3335",
+      "title": "ProLaViT: Learning Progressive Latent Visual Thoughts in Structured Latent Space",
+      "authors": [
+        "Peiming Li",
+        "Yifan Wang",
+        "Xiaotian Zhang",
+        "Zhiyuan Hu",
+        "Shiyu Li",
+        "Zheng Wei",
+        "Yang Tang"
+      ],
+      "topics": [
+        "Video Understanding, Generation and Multimodal Learning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3335",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5862",
+      "officialId": "5862",
+      "title": "Learning to Attract and Repel: Dual Quality Margin Learning for Face Recognition (DQM-Face)",
+      "authors": [
+        "El Ouanas Belabbaci",
+        "Bhavesh Wani",
+        "Philipp Terhörst"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5862",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4332",
+      "officialId": "4332",
+      "title": "XPos3R: Cross-Modal Transformer for Intraoperative 2D/3D Registration",
+      "authors": [
+        "Shiyan Su",
+        "Ruyi Zha",
+        "HONGDONG LI",
+        "Xuelian Cheng",
+        "Zongyuan Ge"
+      ],
+      "topics": [
+        "Computational Imaging, Medical & Scientific Vision"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4332",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3641",
+      "officialId": "3641",
+      "title": "PhysFlowNet: Learning Canonical Latent Manifolds via Spatio-Spectral Physics Priors for Underwater Object Detection",
+      "authors": [
+        "XUETING Liu",
+        "Haoyu Ji",
+        "Wenze Huang",
+        "Zhihao Yang",
+        "Yu Gao",
+        "Weihong Ren",
+        "Zhiyong Wang",
+        "Honghai Liu"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3641",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4865",
+      "officialId": "4865",
+      "title": "DreamEdit3D: Personalization of Multi-View Diffusion Models for 3D Editing",
+      "authors": [
+        "Jinxin Ai",
+        "Matthias Niessner",
+        "Ziya Erkoç"
+      ],
+      "topics": [
+        "3D Reconstruction, Gaussian Splatting & Neural Rendering"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4865",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5546",
+      "officialId": "5546",
+      "title": "Provable and Robust Wavefront Sensing via Self-Reference Interferometry",
+      "authors": [
+        "Nebiyou Yismaw",
+        "Vishwanath Saragadam",
+        "Aswin C. Sankaranarayanan",
+        "M. Salman Asif"
+      ],
+      "topics": [
+        "Computational Imaging, Shape Recovery and Camera Geometry"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5546",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3262",
+      "officialId": "3262",
+      "title": "Generation Models Know Space: Unleashing Implicit 3D Priors for Scene Understanding",
+      "authors": [
+        "Xianjin Wu",
+        "Dingkang Liang",
+        "Tianrui Feng",
+        "Kui Xia",
+        "Yumeng Zhang",
+        "Xiaofan Li",
+        "Xiao Tan",
+        "Xiang Bai"
+      ],
+      "topics": [
+        "3D Reconstruction, Registration and Scene Modeling"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3262",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5453",
+      "officialId": "5453",
+      "title": "EoS-FM: Can an Ensemble of Specialist Models act as a Generalist Feature Extractor?",
+      "authors": [
+        "Pierre Adorni",
+        "Minh-Tan Pham",
+        "Stephane May",
+        "Sébastien Lefèvre"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5453",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3290",
+      "officialId": "3290",
+      "title": "OmniFit: Multi-modal 3D Body Fitting via Scale-agnostic Dense Landmark Prediction",
+      "authors": [
+        "Zeyu CAI",
+        "Yuliang Xiu",
+        "renke wang",
+        "Zhijing Shao",
+        "Xiaoben Li",
+        "YU Siyuan",
+        "Chao Xu",
+        "Yang Liu",
+        "Baigui Sun",
+        "Jian Yang",
+        "zhenyu zhang"
+      ],
+      "topics": [
+        "Embodied AI, Robotics & Autonomous Driving"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3290",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3333",
+      "officialId": "3333",
+      "title": "The Label Imitation Game: Turing Test Network for Zero-Shot Pseudo-Label Pruning",
+      "authors": [
+        "Brent Griffin",
+        "Jason Corso"
+      ],
+      "topics": [
+        "Federated, Continual & Efficient Learning; Model Security"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3333",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5307",
+      "officialId": "5307",
+      "title": "Towards Practical Lossless Neural Compression for LiDAR Point Clouds",
+      "authors": [
+        "pengpeng yu",
+        "Haoran Li",
+        "Runqing Jiang",
+        "Dingquan Li",
+        "Jing Wang",
+        "Liang Lin",
+        "Yulan Guo"
+      ],
+      "topics": [
+        "3D Reconstruction, Registration and Scene Modeling"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5307",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4729",
+      "officialId": "4729",
+      "title": "DeCoFlow: Structural Decomposition of Normalizing Flows for Continual Anomaly Detection",
+      "authors": [
+        "hun im",
+        "Jungi Lee",
+        "Subeen Cha",
+        "Pilsung Kang"
+      ],
+      "topics": [
+        "3D Graphics and Geometric Representations"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4729",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3564",
+      "officialId": "3564",
+      "title": "ARVAR: Accelerating Visual Autoregressive Model via Attention Retrospect",
+      "authors": [
+        "Jiedong Zhuang",
+        "Lu Lu",
+        "Ming Dai",
+        "Jian Chen",
+        "Qiang Liu",
+        "Haoji Hu"
+      ],
+      "topics": [
+        "Low-Level Vision, Restoration & Generative Priors"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3564",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3354",
+      "officialId": "3354",
+      "title": "ASSCG: Just-Right Gating over Chattering for Fast–Slow LLM Planning in Autonomous Driving",
+      "authors": [
+        "Sining Ang",
+        "Yuan Chen",
+        "Liu Haiyan",
+        "Xuanyao Mao",
+        "jason bao",
+        "Xuliang Xuliang",
+        "Bingchuan Sun",
+        "Yan Wang"
+      ],
+      "topics": [
+        "Embodied AI, Robotics & Autonomous Driving"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3354",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3879",
+      "officialId": "3879",
+      "title": "Glance: Accelerating Diffusion Models with 1 Sample",
+      "authors": [
+        "Zhuobai Dong",
+        "Rui Zhao",
+        "songjie wu",
+        "Suyang Hou",
+        "Junchao Yi",
+        "Zhengyuan Yang",
+        "Lijuan Wang",
+        "Alex Jinpeng Wang"
+      ],
+      "topics": [
+        "Low-Level Vision, Restoration & Generative Priors"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3879",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5237",
+      "officialId": "5237",
+      "title": "LESV:Language Embedded Sparse Voxel Fusion for Open-Vocabulary 3D Scene Understanding",
+      "authors": [
+        "Fusang WANG",
+        "Nathan Piasco",
+        "Moussab Bennehar",
+        "Luis G Roldao Jimenez",
+        "Dzmitry Tsishkou",
+        "Fabien Moutarde"
+      ],
+      "topics": [
+        "3D Reconstruction, Registration and Scene Modeling"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5237",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3963",
+      "officialId": "3963",
+      "title": "MPO: Single-Stream Policy Optimization for Efficient Text-to-Image Alignment",
+      "authors": [
+        "Lishuai Gao",
+        "Jie Hu",
+        "Cong Wei",
+        "Yujie Zhong",
+        "Yibo Zhao",
+        "Zan Gao",
+        "Xiaoming Wei"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3963",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5554",
+      "officialId": "5554",
+      "title": "Trajectory-aware Cross-view Geo-Localization with Sequential Observations",
+      "authors": [
+        "Tianyi Gao",
+        "Jiayu Lin",
+        "Danielle Beaulieu",
+        "Nathan Jacobs"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5554",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5411",
+      "officialId": "5411",
+      "title": "Robust Zero-shot Anomaly Detection under Limited Auxiliary Anomaly Priors",
+      "authors": [
+        "Guanyu Lu",
+        "Fang Zhou",
+        "Cheqing Jin"
+      ],
+      "topics": [
+        "Recognition, Tracking, Re-ID & Anomaly Detection"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5411",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3519",
+      "officialId": "3519",
+      "title": "ShellMaker: Language-Guided Exterior Completion under Structural Constraints",
+      "authors": [
+        "Ruiqi Xu",
+        "Daniel Aliaga"
+      ],
+      "topics": [
+        "3D Graphics and Geometric Representations"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3519",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4244",
+      "officialId": "4244",
+      "title": "Parallel Vision Token Scheduling for Fast and Accurate Multimodal LMMs Inference",
+      "authors": [
+        "Wengyi Zhan",
+        "Mingbao Lin",
+        "Zhihang Lin",
+        "Rongrong Ji"
+      ],
+      "topics": [
+        "Multimodal, Video & Document Understanding"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4244",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4879",
+      "officialId": "4879",
+      "title": "Boosting Correspondence Learning with Structure-Aware Estimator",
+      "authors": [
+        "Tianyu Yan",
+        "Wei An",
+        "Pu Wang",
+        "Yingqian Wang"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4879",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5403",
+      "officialId": "5403",
+      "title": "Debiased Textual Prompt Tuning for Enhancing Unknown Class Discovery",
+      "authors": [
+        "Yuxin Fan",
+        "Junbiao Cui",
+        "Changhao Liu",
+        "Xingwang Zhao",
+        "Jiye Liang"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5403",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3969",
+      "officialId": "3969",
+      "title": "MobileVLA-R1: Reinforcing Vision-Language-Action for Mobile Robots",
+      "authors": [
+        "Ting Huang",
+        "Dongjian Li",
+        "Rui Yang",
+        "Zeyu Zhang",
+        "ZIDA YANG",
+        "Hao Tang"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3969",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5240",
+      "officialId": "5240",
+      "title": "LMGenDrive: Bridging Multimodal Understanding and Generative World Modeling for End-to-End Driving",
+      "authors": [
+        "Hao Shao",
+        "Letian Wang",
+        "Yang Zhou",
+        "Yuxuan Hu",
+        "Zhuofan Zong",
+        "Steven Waslander",
+        "Wei Zhan",
+        "Hongsheng LI"
+      ],
+      "topics": [
+        "Embodied AI, Robotics & Autonomous Driving"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5240",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3405",
+      "officialId": "3405",
+      "title": "UniMotion: A Unified Framework for Motion-Text-Vision Understanding and Generation",
+      "authors": [
+        "Ziyi Wang",
+        "Xinshun Wang",
+        "Shuang Chen",
+        "Yang Cong",
+        "Mengyuan Liu"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3405",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3296",
+      "officialId": "3296",
+      "title": "Aligning Human Sense: Calibrated Distributional Reward Learning for Video Generation",
+      "authors": [
+        "Naixin Zhai",
+        "Weihua Cheng",
+        "Dexu Yu",
+        "Yikai Gu",
+        "Hanwen Du",
+        "Junchen Fu",
+        "Chenxi Huang",
+        "Yingwei Song",
+        "Liyuan Ma",
+        "Yang Ran",
+        "Youhua Li",
+        "Yongxin Ni"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3296",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4077",
+      "officialId": "4077",
+      "title": "DualDiff3D: Dual Structure-Appearance Diffusion Priors for Reliability-Enhanced 3D Gaussian Splatting",
+      "authors": [
+        "Qian Wang",
+        "Yu Wang",
+        "Weiqi Li",
+        "Xinhua Cheng",
+        "Xiandong MENG",
+        "Ronggang Wang",
+        "Jian Zhang"
+      ],
+      "topics": [
+        "3D Reconstruction, Gaussian Splatting & Neural Rendering"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4077",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4798",
+      "officialId": "4798",
+      "title": "Mitigating Positional Leakage in 3D Masked Autoencoders for Robust Representation Learning",
+      "authors": [
+        "Xu Yan",
+        "Huiqun Wang",
+        "Chen Wang",
+        "Lei Ren",
+        "Di Huang"
+      ],
+      "topics": [
+        "3D Reconstruction, Registration and Scene Modeling"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4798",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5398",
+      "officialId": "5398",
+      "title": "GrowFields: Compositional 4D Neural Fields for Topology-Changing Plant Growth",
+      "authors": [
+        "Joaquin Gajardo",
+        "Michele Volpi",
+        "Marko Mihajlovic",
+        "Siyu Tang",
+        "Lukas Roth",
+        "Sergey Prokudin"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5398",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4431",
+      "officialId": "4431",
+      "title": "Invisible Shortcuts: Why Vision Encoders Know Your Camera",
+      "authors": [
+        "Vladan Stojnic",
+        "Ryan Ramos",
+        "Giorgos Kordopatis-Zilos",
+        "Noa Garcia",
+        "Giorgos Tolias"
+      ],
+      "topics": [
+        "Vision Foundation Models: Interpretability and Reasoning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4431",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4456",
+      "officialId": "4456",
+      "title": "InverseCrafter: Efficient Video ReCapture as a Latent Domain Inverse Problem",
+      "authors": [
+        "Yeobin Hong",
+        "Suhyeon Lee",
+        "Hyungjin Chung",
+        "Jong Chul Ye"
+      ],
+      "topics": [
+        "Low-Level Vision, Restoration & Generative Priors"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4456",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5233",
+      "officialId": "5233",
+      "title": "SEM-ROVER: Semantic Voxel-Guided Diffusion for Large-Scale Driving Scene Generation",
+      "authors": [
+        "Hiba Dahmani",
+        "Nathan Piasco",
+        "Moussab Bennehar",
+        "Luis G Roldao Jimenez",
+        "Dzmitry Tsishkou",
+        "Laurent Caraffa",
+        "Jean-Philippe Tarel",
+        "Roland Brémond"
+      ],
+      "topics": [
+        "3D Reconstruction, Registration and Scene Modeling"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5233",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4762",
+      "officialId": "4762",
+      "title": "BrainFIBRE: A Foundation Model via Information Decomposition for Brain Microstructure",
+      "authors": [
+        "Zijian Dong",
+        "Yi Lin",
+        "Fang Ji",
+        "Jianxiong Zhou",
+        "Eric Kwun Kei NG",
+        "Juan Zhou"
+      ],
+      "topics": [
+        "Recognition, Tracking, Re-ID & Anomaly Detection"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4762",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3285",
+      "officialId": "3285",
+      "title": "Region-Aware Multimodal Interleaving for Animal Re-Identification",
+      "authors": [
+        "Yihao Wu",
+        "Di Zhao",
+        "Wayne Getz",
+        "Lingqiao Liu",
+        "Gillian Dobbie",
+        "Daniel Wilson",
+        "Yun Sing Koh"
+      ],
+      "topics": [
+        "Recognition, Tracking, Re-ID & Anomaly Detection"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3285",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3849",
+      "officialId": "3849",
+      "title": "EvoTok: A Unified Image Tokenizer via Residual Latent Evolution for Visual Understanding and Generation",
+      "authors": [
+        "Yan Li",
+        "Ning Liao",
+        "Xiangyu Zhao",
+        "Shaofeng Zhang",
+        "Xiaoxing Wang",
+        "Yifan Yang",
+        "Junchi Yan",
+        "Xue Yang"
+      ],
+      "topics": [
+        "3D Graphics and Geometric Representations"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3849",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3523",
+      "officialId": "3523",
+      "title": "Capacity Overflow: A Blind Spot for Backdoor Attacks in Vision MoE",
+      "authors": [
+        "Xiaocheng Zou",
+        "Tiancheng Zheng",
+        "Xiaolin Xu",
+        "Ruyi Ding"
+      ],
+      "topics": [
+        "Federated, Continual & Efficient Learning; Model Security"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3523",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4199",
+      "officialId": "4199",
+      "title": "InstGS: Shared-Template Gaussian Instancing for Object-Redundancy-Free Rendering",
+      "authors": [
+        "Zi'ang Lu",
+        "Qian Zhang",
+        "Kang Du",
+        "Dong Liang",
+        "John Li",
+        "Xinyao Wei",
+        "Zeyu Wang",
+        "Jinyuan Jia"
+      ],
+      "topics": [
+        "3D Reconstruction, Gaussian Splatting & Neural Rendering"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4199",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5783",
+      "officialId": "5783",
+      "title": "SciIR: A Large-scale Training Dataset and Benchmark for Scientific Image Reasoning Generation",
+      "authors": [
+        "Zhiyuan Ma",
+        "Zhengfeng Shi",
+        "Yuning An",
+        "Peize Li",
+        "Jiabao Wei",
+        "Ruijie Li",
+        "Junhao Xiao",
+        "Jianjun Li",
+        "Bowen Zhou"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5783",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5272",
+      "officialId": "5272",
+      "title": "HVA-Fusion:Hierarchical Velocity-Aware 4D Radar-LiDAR Fusion for Robust 3D Object Detection",
+      "authors": [
+        "Jingxian Wu",
+        "Lu Wang",
+        "Lisheng Xu",
+        "Jun Cheng"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5272",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3974",
+      "officialId": "3974",
+      "title": "Adaptive Noise Covariance Scheduling under Riemannian Metrics for Diffusion Models",
+      "authors": [
+        "Bolin Deng",
+        "Die Hu",
+        "Bin Tan",
+        "Jun Wu"
+      ],
+      "topics": [
+        "3D Graphics and Geometric Representations"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3974",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5290",
+      "officialId": "5290",
+      "title": "No Place to Hide: Benchmarking Video Hallucination with Background-Controlled Pairs",
+      "authors": [
+        "Haojian Huang",
+        "Harold Haodong Chen",
+        "Meng Luo",
+        "Junjia Du",
+        "Shanqing Xu",
+        "Ziheng Chen",
+        "Yanxiang Huang",
+        "Yinchuan Li",
+        "Yingcong Chen"
+      ],
+      "topics": [
+        "Video Understanding, Generation and Multimodal Learning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5290",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5192",
+      "officialId": "5192",
+      "title": "Spectral Prior for Reducing Exposure Bias in Diffusion Models",
+      "authors": [
+        "Yuya Kobayashi",
+        "Masato Ishii",
+        "Yuhta Takida",
+        "Takashi Shibuya",
+        "Yuki Mitsufuji"
+      ],
+      "topics": [
+        "Low-Level Vision, Restoration & Generative Priors"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5192",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-4284",
+      "officialId": "4284",
+      "title": "AdaBoosting Text Prompts for Vision-Language Models",
+      "authors": [
+        "Seokhee Jin",
+        "Changhwan Sung",
+        "Sunung Mun",
+        "Hoyoung Kim",
+        "Jungseul Ok"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4284",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5170",
+      "officialId": "5170",
+      "title": "OSVE: One Step Video Editing with One Step Diffusion Models",
+      "authors": [
+        "Habin Lim",
+        "Gyeong-Moon Park"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5170",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-3794",
+      "officialId": "3794",
+      "title": "Safe Generalization: Mitigating Catastrophic Forgetting in Single-Source Multi-Organ Segmentation via Collaborative Causal Learning",
+      "authors": [
+        "Yucheng Song",
+        "Ruoxi Yu",
+        "Feng Shu",
+        "Cheng Huang",
+        "HaoKang Ding",
+        "Zhifang Liao"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3794",
+      "paperUrl": null,
+      "sampleGroup": "random"
+    },
+    {
+      "id": "eccv-2026-5315",
+      "officialId": "5315",
+      "title": "D²R²OSR: Degradation-Disentangled Representation for Real-World Omnidirectional Image Super-Resolution",
+      "authors": [
+        "Hongyu An",
+        "Xinfeng Zhang",
+        "Xu Fan",
+        "Shijie Zhao",
+        "Li Zhang",
+        "Ruiqin Xiong"
+      ],
+      "topics": [
+        "Low-Level Vision, Restoration & Generative Priors"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5315",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5092",
+      "officialId": "5092",
+      "title": "SAFE-Pruner: Semantic Attention–Guided Future-Aware Token Pruning for Efficient Vision-Language-Action Manipulation",
+      "authors": [
+        "Shilin Ma",
+        "Chubin Zhang",
+        "Changyuan Wang",
+        "Yuji Wang",
+        "Yue Wu",
+        "Zixuan Wang",
+        "Jingqi Tian",
+        "Zheng Zhu",
+        "Yansong Tang"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5092",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5738",
+      "officialId": "5738",
+      "title": "Unified and Efficient Point-Line Local Features",
+      "authors": [
+        "François Costa",
+        "Raphael Kreft",
+        "Felix Möller",
+        "Hardik Shah",
+        "Ramanathan Rajaraman",
+        "Eckhard Goedeke",
+        "Shaohui Liu",
+        "Rémi Pautrat",
+        "Marc Pollefeys"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5738",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5361",
+      "officialId": "5361",
+      "title": "StarDojo: Benchmarking Open-Ended Behaviors of Agentic Multimodal LLMs in Production–Living Simulations with Stardew Valley",
+      "authors": [
+        "Weihao Tan",
+        "Changjiu Jiang",
+        "Yu Duan",
+        "Mingcong Lei",
+        "Li JiaGeng",
+        "Yitian Hong",
+        "Xinrun Wang",
+        "Bo An"
+      ],
+      "topics": [
+        "Vision-Language Models & Foundation Models"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5361",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-4911",
+      "officialId": "4911",
+      "title": "R3RECON: Radiance-Field-Free Active Reconstruction via Renderability",
+      "authors": [
+        "Xiaofeng Jin",
+        "Matteo Frosi",
+        "Yiran Guo",
+        "Matteo Matteucci"
+      ],
+      "topics": [
+        "3D Reconstruction, Gaussian Splatting & Neural Rendering"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4911",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-4876",
+      "officialId": "4876",
+      "title": "Reinforcing Video Reasoning with Focused Thinking",
+      "authors": [
+        "Jisheng Dang",
+        "Jingze Wu",
+        "Teng Wang",
+        "Xuanhui Lin",
+        "Nannan Zhu",
+        "Hongbo Chen",
+        "WEISHI ZHENG",
+        "Meng Wang",
+        "Tat-Seng Chua"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4876",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-3248",
+      "officialId": "3248",
+      "title": "Syn4D: A Multiview Synthetic 4D Dataset",
+      "authors": [
+        "Zeren Jiang",
+        "Yushi Lan",
+        "Yihang Luo",
+        "Yufan Deng",
+        "Zihang Lai",
+        "Edgar Sucar",
+        "Christian Rupprecht",
+        "Iro Laina",
+        "Diane Larlus",
+        "Chuanxia Zheng",
+        "Andrea Vedaldi"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3248",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-3497",
+      "officialId": "3497",
+      "title": "World Reconstruction From Inconsistent Views",
+      "authors": [
+        "Lukas Höllein",
+        "Matthias Niessner"
+      ],
+      "topics": [
+        "3D Reconstruction, Gaussian Splatting & Neural Rendering"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3497",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-3232",
+      "officialId": "3232",
+      "title": "Vision Bridge Transformer at Scale",
+      "authors": [
+        "Zhenxiong Tan",
+        "Zeqing Wang",
+        "Xingyi Yang",
+        "Songhua Liu",
+        "Xinchao Wang"
+      ],
+      "topics": [
+        "Image Generation, Editing & Diffusion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3232",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5584",
+      "officialId": "5584",
+      "title": "Mitigating Pose–Scale Discrepancy Bias and Reforming Multi-Support Reasoning for Few-Shot Semantic Segmentation",
+      "authors": [
+        "Shreya Biswas",
+        "Zhaozheng Yin"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5584",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5681",
+      "officialId": "5681",
+      "title": "OmniLife360: A Benchmark for 3D Reconstruction from In-the-Wild 360° Captures",
+      "authors": [
+        "Zonglin Zhao",
+        "Bowen Zhang",
+        "Yatai Li",
+        "Chao.Liang Chao.Liang",
+        "Zhipeng Zhang"
+      ],
+      "topics": [
+        "Video Generation, Avatars & Dynamic Worlds"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5681",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-4884",
+      "officialId": "4884",
+      "title": "PDF-Omni: Poincaré Dual Disk Distortion Field-based Recurrent Update for Omnidirectional Stereo Matching",
+      "authors": [
+        "Yunseok Yang",
+        "Eunjin Son",
+        "Sang Lee"
+      ],
+      "topics": [
+        "3D Reconstruction, Gaussian Splatting & Neural Rendering"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4884",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-4866",
+      "officialId": "4866",
+      "title": "4DGS360: 360° Gaussian Reconstruction of Dynamic Objects from a Single Video",
+      "authors": [
+        "Jae Won Jang",
+        "Yeonjin Chang",
+        "Wonsik Shin",
+        "Juhwan Cho",
+        "Nojun Kwak"
+      ],
+      "topics": [
+        "Geometry, Localization, Matching & Motion"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4866",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-3531",
+      "officialId": "3531",
+      "title": "GeoDetect: Geometric Adversarial Detection for VLPs",
+      "authors": [
+        "Afsaneh Hasanebrahimi",
+        "Hanxun Huang",
+        "Christopher Leckie",
+        "James Bailey",
+        "Sarah Erfani"
+      ],
+      "topics": [
+        "Robustness, Privacy, Learning & Theory"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/3531",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-4917",
+      "officialId": "4917",
+      "title": "MOCHA: Multi-modal Objects-aware Cross-arcHitecture Alignment",
+      "authors": [
+        "Elena Camuffo",
+        "Francesco Barbato",
+        "Mete Ozay",
+        "Simone Milani",
+        "Umberto Michieli"
+      ],
+      "topics": [
+        "Open-World Recognition, Segmentation & Transfer"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4917",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5250",
+      "officialId": "5250",
+      "title": "A Scalable Vector Graphics Latent Space",
+      "authors": [
+        "Leonardo Zini",
+        "Elia Frigieri",
+        "Lorenzo Baraldi"
+      ],
+      "topics": [
+        "3D Graphics and Geometric Representations"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5250",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5620",
+      "officialId": "5620",
+      "title": "Weather-Conditioned Depth Anything",
+      "authors": [
+        "Zhaoming Xu",
+        "Chan-Wei Hu",
+        "Kuan-Ru Huang",
+        "Zihao Zhu",
+        "Renjie Li",
+        "Yang Zhou",
+        "Zhengzhong Tu"
+      ],
+      "topics": [
+        "Computational Imaging, Shape Recovery and Camera Geometry"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5620",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-4388",
+      "officialId": "4388",
+      "title": "SAM-MT: Real-Time Interactive Multi-Target Video Segmentation",
+      "authors": [
+        "Ruiqi Shen",
+        "Chang Liu",
+        "Henghui Ding"
+      ],
+      "topics": [
+        "Video Understanding, Generation and Multimodal Learning"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4388",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-5632",
+      "officialId": "5632",
+      "title": "Don’t Mask Out the Background! Natural-Light Photometric Stereo via Illumination Reconstruction",
+      "authors": [
+        "Taiga Hashida",
+        "Hiroaki Santo",
+        "Fumio Okura"
+      ],
+      "topics": [
+        "Computational Imaging, Shape Recovery and Camera Geometry"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/5632",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    },
+    {
+      "id": "eccv-2026-4964",
+      "officialId": "4964",
+      "title": "Closing the Capacity–Convergence Gap: Globally Optimal Configuration of Implicit Neural Representations",
+      "authors": [
+        "Sipeng Chen",
+        "Yan Zhang",
+        "Shibo Li"
+      ],
+      "topics": [
+        "Robustness, Privacy, Learning & Theory"
+      ],
+      "abstract": null,
+      "officialUrl": "https://eccv.ecva.net/virtual/2026/poster/4964",
+      "paperUrl": null,
+      "sampleGroup": "challenge"
+    }
+  ]
+}
