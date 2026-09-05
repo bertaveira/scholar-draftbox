@@ -1,5 +1,5 @@
 {
-  "inputPath": "scout/research/abstract-enrichment/review-queue.jsonl",
+  "inputPath": "research/abstract-enrichment/review-queue.jsonl",
   "inputStatus": "review",
   "reviewedRows": 68,
   "categoryCounts": {

@@ -26,10 +26,10 @@ The app dataset and UI remain unchanged. This research output is not bundled or 
 
 From the repository root:
 ```sh
-python3 -u scout/scripts/pilot_metadata.py
-python3 -u scout/scripts/pilot_metadata_fallback.py
-python3 scout/scripts/pilot_metadata_report.py
-python3 -m unittest discover -s scout/scripts -p "test_pilot_metadata.py"
+python3 -u scripts/pilot_metadata.py
+python3 -u scripts/pilot_metadata_fallback.py
+python3 scripts/pilot_metadata_report.py
+python3 -m unittest discover -s scripts -p "test_pilot_metadata.py"
 ```
 
 Run collection commands sequentially, not concurrently. The sample is fixed in sample.json. Successful query responses are reused; raw cache files remain local. results.json holds the first pass; fallback-results.json contains the combined candidates; review.csv is the review table.

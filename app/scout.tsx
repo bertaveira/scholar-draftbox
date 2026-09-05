@@ -831,12 +831,39 @@ export default function Scout({
           Scholar Draftbox <span>— definitely the one we have at home.</span>
         </p>
         <p>
-          An unofficial community parody. Not affiliated with Scholar Inbox,
+          An unofficial community project. Not affiliated with Scholar Inbox,
           ECCV, or ECVA.
         </p>
         <p>
           Saved papers stay in this browser. No accounts or tracking. All
           session times are Malmö time (Europe/Stockholm).
+        </p>
+        <p className="footer-community">
+          Open source, questionable branding.{' '}
+          <a
+            href="https://github.com/bertaveira/scholar-draftbox"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Code on GitHub
+          </a>{' '}
+          — contributions welcome.
+        </p>
+        <p className="footer-community">
+          Complaints department:{' '}
+          <a href="https://x.com/Bertaveira" target="_blank" rel="noreferrer">
+            me on Twitter/X
+          </a>
+          . Management:{' '}
+          <a
+            href="https://bertaveira.github.io/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="My personal website"
+          >
+            also me
+          </a>
+          .
         </p>
         <div>
           <a

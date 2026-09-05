@@ -23,7 +23,7 @@ def main():
     'No-results means these two queries found no candidate, not that the paper has no preprint. Search indexing, title changes and upload timing may affect recall. A manual audit of returned candidates cannot establish recall for missing papers.',
     'Abstracts are copied from arXiv metadata, not generated or extracted from PDFs. They may describe a preprint version rather than the final accepted manuscript. Source URLs and timestamps are retained in JSON.',
     'The app dataset and UI remain unchanged. This research output is not bundled or published.',
-    '', '## Reproduce','', 'From the repository root:', '```sh','python3 -u scout/scripts/pilot_metadata.py','python3 -u scout/scripts/pilot_metadata_fallback.py','python3 scout/scripts/pilot_metadata_report.py','python3 -m unittest discover -s scout/scripts -p "test_pilot_metadata.py"','```','',
+    '', '## Reproduce','', 'From the repository root:', '```sh','python3 -u scripts/pilot_metadata.py','python3 -u scripts/pilot_metadata_fallback.py','python3 scripts/pilot_metadata_report.py','python3 -m unittest discover -s scripts -p "test_pilot_metadata.py"','```','',
     'Run collection commands sequentially, not concurrently. The sample is fixed in sample.json. Successful query responses are reused; raw cache files remain local. results.json holds the first pass; fallback-results.json contains the combined candidates; review.csv is the review table.',
     '', 'Sources: [arXiv API](https://info.arxiv.org/help/api/user-manual.html), [arXiv rate limits and metadata terms](https://info.arxiv.org/help/api/tou.html), [official abstract endpoint](https://eccv.ecva.net/static/virtual/data/eccv-2026-abstracts.json).','']
     lines += ["## Pilot review and recommendation", "",

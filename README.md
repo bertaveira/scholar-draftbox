@@ -2,14 +2,13 @@
 
 A local, unofficial ECCV 2026 paper explorer and personal poster shortlist. Now wearing its affectionate Scholar Inbox parody branding: Scholar Draftbox, the one we have at home. The underlying data tools and storage keys retain the ECCV Scout name so existing bookmarks remain intact.
 
-The accepted implementation plan is [mvp-plan.md](mvp-plan.md). The original [build plan](eccv-scout-build-plan.md) is preserved as the future roadmap. Application code lives in `scout/`.
+The accepted implementation plan is [mvp-plan.md](mvp-plan.md). The original [build plan](eccv-scout-build-plan.md) is preserved as the future roadmap. Application code and package commands live at the repository root.
 
 ## Run locally
 
 Use Node.js **22.13 or later** (Node 24 recommended) and Python 3.9 or later.
 
 ```sh
-cd scout
 npm ci
 npm run dev
 ```
@@ -61,7 +60,6 @@ Data uses separate paper, session, and presentation records, preserving official
 ## Refresh and validation
 
 ```sh
-cd scout
 npm run data:refresh
 npm test
 npm run typecheck
@@ -99,8 +97,8 @@ The lint command covers authored application, data tooling, and test code. Unmod
 
 In Saved, choose **Send to phone**, scan the code with the phone camera, and confirm the import. The preview shows new/existing bookmarks and paper titles. Imports merge with the phone's existing saves, preserve unavailable paper IDs, and remove the transfer fragment from the address bar after confirmation or cancellation. This is a one-time copy, not ongoing sync. The QR is generated locally; its versioned payload contains only paper IDs in the URL fragment (not sent to the web server). Anyone with the code/link can import that selection. Long lists fall back to JSON export/import.
 
-For local testing, build the app and run `npm run preview:lan` from `scout/`. Keep the laptop running and use the same Wi-Fi on both devices. This starts a static preview on port 3001, listening on the local network, and prints the phone address. It writes `dist/client/phone-preview.json` so the existing localhost preview can automatically use that address for QR transfer. This generated configuration is excluded from offline caching and source control. Restart the LAN preview after rebuilding or changing networks. The dialog uses the current site origin automatically when published. Network isolation or a firewall may prevent access.
+For local testing, build the app and run `npm run preview:lan` from the repository root. Keep the laptop running and use the same Wi-Fi on both devices. This starts a static preview on port 3001, listening on the local network, and prints the phone address. It writes `dist/client/phone-preview.json` so the existing localhost preview can automatically use that address for QR transfer. This generated configuration is excluded from offline caching and source control. Restart the LAN preview after rebuilding or changing networks. The dialog uses the current site origin automatically when published. Network isolation or a firewall may prevent access.
 
 Local HTTP transfer and bookmarking work on the phone, but service workers/offline caching require HTTPS (or localhost). Public hosting remains a separate step. Bookmarks belong to the exact browser origin, so changing address/port later requires another import.
 
-Accepted arXiv links are applied with `npm run data:links` in `scout/` and reapplied during official ingestion when the enrichment artifacts are present. The snapshot currently includes 1,880 links (1,813 strict matches plus 67 accepted review matches). The import validates official titles, IDs, source URLs, and review evidence before atomic publication; abstracts and source/version provenance are also imported. Existing official abstracts take precedence over arXiv text. The 67 accepted review abstracts are retained in `reviewed-abstracts.jsonl`, recovered from cached arXiv responses without new requests.
+Accepted arXiv links are applied with `npm run data:links` at the repository root and reapplied during official ingestion when the enrichment artifacts are present. The snapshot currently includes 1,880 links (1,813 strict matches plus 67 accepted review matches). The import validates official titles, IDs, source URLs, and review evidence before atomic publication; abstracts and source/version provenance are also imported. Existing official abstracts take precedence over arXiv text. The 67 accepted review abstracts are retained in `reviewed-abstracts.jsonl`, recovered from cached arXiv responses without new requests.

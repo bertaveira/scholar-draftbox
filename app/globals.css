@@ -1608,3 +1608,16 @@ footer a {
 .abstract {
   overflow-wrap: anywhere;
 }
+
+footer .footer-community {
+  font-size: 14px;
+  margin: 12px 0;
+}
+footer p a {
+  display: inline;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+footer a:hover {
+  color: #702b10;
+}
