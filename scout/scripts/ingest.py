@@ -1,5 +1,5 @@
 """Official ECCV HTML ingestion. Standard library only; validate before atomic publish."""
-import argparse, datetime as dt, hashlib, json, os, re, urllib.request
+import argparse, datetime as dt, hashlib, json, os, re, urllib.request, unicodedata
 from pathlib import Path
 from html.parser import HTMLParser
 from zoneinfo import ZoneInfo
@@ -36,11 +36,18 @@ def clean(t): return re.sub(r'\s+',' ',t or '').strip()
 def norm(t): return clean(t).casefold()
 def clock(t):
     t=t.lower().replace('.','').strip(); m=re.search(r'(\d{1,2})(?::(\d{2}))?\s*(am|pm)',t)
+    if t == 'noon': return 12,0
+    if t == 'midnight': return 0,0
     if not m: raise ValueError('Unrecognized clock: '+t)
     h,mi,ap=m.groups(); return int(h)%12+(12 if ap=='pm' else 0),int(mi or 0)
 def normalize(raw):
     accepted=Parser(raw['accepted']).root; calendar=Parser(raw['calendar']).root
     events=json.loads(raw.get('events','{"results":[]}'))['results']; abstracts=json.loads(raw.get('abstracts','{}'))
+    room_names={}
+    for option in calendar.all('option'):
+        value=option.attrs.get('value','')
+        slug=re.sub(r'[^a-z0-9]+','-',unicodedata.normalize('NFKD',value).encode('ascii','ignore').decode().lower()).strip('-')
+        if value: room_names[slug]=value
     papers={}; row_signatures={}; bytitle={}; presentations=[]; sessions={}; warnings=[]
     for row in accepted.all('tr'):
         links=[a for a in row.all('a') if re.match(r'/virtual/2026/poster/\d+$',a.attrs.get('href',''))]
@@ -60,7 +67,7 @@ def normalize(raw):
         a=first(block,'a'); box=block.ancestor('timebox'); day=block.ancestor('container2')
         if not a or not box or not day or '/session/' not in a.attrs.get('href',''): continue
         date_text=first(day,cls='hdrbox').text(); dm=re.search(r'(\d+)\s+SEP',date_text)
-        if not dm: continue
+        if not dm or int(dm.group(1)) not in (10,11,12): continue
         sid='session-'+a.attrs['href'].split('/')[-1]; span=first(a,cls='sessiontime'); time_text=span.text() if span else ''
         name=clean(a.text().replace(time_text,'')); time_node=next((c for c in box.children if isinstance(c,Node) and c.has('time')),None)
         if not time_node: continue
@@ -72,8 +79,8 @@ def normalize(raw):
             if end<=start: end+=dt.timedelta(hours=12)
         parent=block.parent.parent
         room_class=next((x[5:] for x in parent.attrs.get('class','').split() if x.startswith('room-')),None)
-        room={'exhall':'ExHall','arena-room':'Arena Room','ab':'AB'}.get(room_class,room_class.replace('-',' ').title() if room_class else None)
-        session={'id':sid,'name':name,'startsAt':start.isoformat(),'endsAt':end.isoformat() if end else None,'room':room,'officialUrl':BASE+a.attrs['href']}
+        room=room_names.get(room_class) or {'exhall':'ExHall','arena-room':'Arena Room','ab':'AB'}.get(room_class)
+        session={'id':sid,'name':name,'startsAt':start.isoformat(),'endsAt':end.isoformat() if end else None,'room':room,'officialUrl':BASE+a.attrs['href'],'kind':next((kind for kind in ('poster','oral','spotlight','demo') if name.lower().startswith(kind)), 'ceremony')}
         sessions[sid]=session
         for link in parent.all('a'):
             href=link.attrs.get('href',''); m=re.match(r'/virtual/2026/(poster|oral)/(\d+)$',href)
@@ -98,7 +105,28 @@ def normalize(raw):
                 warnings.append('Unmatched '+typ+': '+title); continue
             if any(p['paperId']==pid and p['sessionId']==sid and p['type']==typ for p in presentations): continue
             presentations.append({'id':sid+'-'+typ+'-'+pid,'paperId':pid,'sessionId':sid,'type':typ,'posterNumber':None,'room':room,'officialUrl':session['officialUrl']})
-    used={p['sessionId'] for p in presentations}; sessions={sid:s for sid,s in sessions.items() if sid in used}
+    # Non-paper program events use the calendar's own clock and explicit end time.
+    kinds={'invited-talk':'keynote','panel':'panel','break':'break','reception':'social','social':'social','mentorship':'mentorship'}
+    for title in calendar.all(cls='title-style'):
+        parent=title.parent; a=first(title,'a'); box=title.ancestor('timebox'); day=title.ancestor('container2')
+        kind=next((value for css,value in kinds.items() if parent.has(css)),None)
+        if not kind or not a or not box or not day: continue
+        heading=first(day,cls='hdrbox'); dm=re.search(r'(\d+)\s+SEP',heading.text() if heading else '')
+        if not dm or int(dm.group(1)) not in (10,11,12): continue
+        time_node=next((c for c in box.children if isinstance(c,Node) and c.has('time')),None)
+        if not time_node: continue
+        hour,minute=clock(time_node.text()); start=dt.datetime(2026,9,int(dm.group(1)),hour,minute,tzinfo=ZoneInfo('Europe/Stockholm'))
+        end_node=first(parent,cls='end-time'); end=None
+        if end_node:
+            eh,em=clock(end_node.text()); end=start.replace(hour=eh,minute=em)
+            if end<=start: end+=dt.timedelta(days=1)
+        href=a.attrs.get('href','')
+        if not re.match(r'/virtual/2026/[a-z-]+/\d+$',href): continue
+        sid='calendar-'+href.split('/')[-1]+'-'+start.date().isoformat()
+        room_class=next((x[5:] for x in parent.attrs.get('class','').split() if x.startswith('room-')),None)
+        speaker=first(parent,cls='speaker-style')
+        sessions[sid]={'id':sid,'name':a.text(),'startsAt':start.isoformat(),'endsAt':end.isoformat() if end else None,'room':room_names.get(room_class),'officialUrl':BASE+href,'kind':kind,'speaker':speaker.text() if speaker else None}
+
     # Enrich only records that are actually present in the published JSON, never treat it as complete.
     for e in events:
         pid='eccv-2026-'+str(e['id'])

@@ -24,6 +24,9 @@ const {
   dayKey,
   groupSaved,
   sortPosters,
+  posterSchedule,
+  conferenceSchedule,
+  layoutSchedule,
 } = await import('../.test-output/conference.js');
 const data = JSON.parse(readFileSync('public/data/conference.json', 'utf8'));
 const store = new Map();
@@ -61,18 +64,19 @@ test('combined filters must match the same presentation', () => {
   const search = createSearch(data);
   const rows = search('', {
     ...emptyFilters,
-    type: 'oral',
-    session: session.id,
-    day: dayKey(session.startsAt),
+    type: ['oral'],
+    session: [session.id],
+    day: [dayKey(session.startsAt)],
   });
   assert.ok(rows.some((x) => x.id === p.paperId));
   assert.equal(
-    search('', { ...emptyFilters, type: 'poster', session: session.id }).length,
+    search('', { ...emptyFilters, type: ['poster'], session: [session.id] })
+      .length,
     0,
   );
   const topic = rows[0].topics[0];
   assert.ok(
-    search('', { ...emptyFilters, type: 'oral', topic }).every((p) =>
+    search('', { ...emptyFilters, type: ['oral'], topic: [topic] }).every((p) =>
       p.topics.includes(topic),
     ),
   );
@@ -205,4 +209,114 @@ test('loader keeps the complete prior snapshot when a refresh is invalid or offl
     (await entries.get('/data/conference.json').clone().json()).version,
     data.version,
   );
+});
+
+test('poster overview includes empty sessions, counts unique saved papers, and excludes oral sessions', () => {
+  const empty = posterSchedule(data, []);
+  assert.equal(empty.length, 6);
+  assert.ok(empty.every((s) => s.savedCount === 0 && s.total > 0));
+  assert.deepEqual(
+    empty.map((s) => dayKey(s.session.startsAt)),
+    [
+      '2026-09-10',
+      '2026-09-10',
+      '2026-09-11',
+      '2026-09-11',
+      '2026-09-12',
+      '2026-09-12',
+    ],
+  );
+  const first = data.presentations.find(
+    (p) => p.type === 'poster' && p.sessionId === empty[0].session.id,
+  );
+  const repeated = structuredClone(data);
+  repeated.presentations.push({ ...first, id: 'duplicate-appearance' });
+  const result = posterSchedule(repeated, [
+    first.paperId,
+    first.paperId,
+    'eccv-2026-999999',
+  ]);
+  assert.equal(result[0].savedCount, 1);
+  assert.equal(result[0].total, empty[0].total);
+  assert.ok(result.slice(1).every((s) => s.savedCount === 0));
+  assert.equal(
+    posterSchedule(data, []).reduce((sum, s) => sum + s.savedCount, 0),
+    0,
+  );
+});
+
+test('schedule includes only requested event kinds while counting saved oral appearances', () => {
+  const oral = data.presentations.find((p) => p.type === 'oral');
+  const schedule = conferenceSchedule(data, [oral.paperId]);
+  assert.ok(schedule.length < data.sessions.length);
+  assert.deepEqual(new Set(schedule.map(s => s.kind)), new Set(['oral', 'spotlight', 'keynote', 'poster', 'break']));
+  assert.equal(schedule.filter((s) => s.kind === 'keynote').length, 3);
+  assert.ok(schedule.some((s) => s.kind === 'break'));
+  assert.equal(
+    schedule.find((s) => s.session.id === oral.sessionId).savedCount,
+    1,
+  );
+  assert.ok(
+    schedule
+      .filter((s) => s.kind === 'keynote')
+      .every((s) => s.total === 0 && s.savedCount === 0),
+  );
+  assert.ok(
+    schedule.every(
+      (s, i) =>
+        i === 0 || s.session.startsAt >= schedule[i - 1].session.startsAt,
+    ),
+  );
+});
+
+test('multi-select unions values, intersects groups, and preserves the opened session boundary', () => {
+  const papers = data.papers.slice(0, 4).map((p, i) => ({...p, id:`eccv-2026-${i+1}`, topics:[['Vision'],['Robotics'],['Vision','Robotics'],['Language']][i]}));
+  const sessions = [
+    {...data.sessions[0], id:'a', startsAt:'2026-09-10T09:00:00+02:00'},
+    {...data.sessions[0], id:'b', startsAt:'2026-09-11T09:00:00+02:00'},
+  ];
+  const presentations = [[0,'a','poster'],[1,'a','poster'],[2,'b','poster'],[2,'a','oral'],[3,'b','poster']].map(([i,sessionId,type], index) => ({...data.presentations[0],id:`p${index}`,paperId:papers[i].id,sessionId,type}));
+  const search = createSearch({...data,papers,sessions,presentations});
+  const ids = filters => search('', {...emptyFilters,...filters}).map(p=>p.id);
+  assert.deepEqual(ids({topic:['Vision','Robotics']}), papers.slice(0,3).map(p=>p.id));
+  assert.deepEqual(ids({topic:['Vision','Robotics'],day:['2026-09-10'],type:['poster']}), papers.slice(0,2).map(p=>p.id));
+  assert.deepEqual(ids({topic:['Vision','Robotics'],day:['2026-09-10'],type:['poster','oral']}), papers.slice(0,3).map(p=>p.id));
+  assert.deepEqual(ids({topic:['Vision','Robotics'],session:['b']}), [papers[2].id]);
+  assert.equal(ids({session:['a','b'],day:['2026-09-10','2026-09-11']}).length,4);
+  assert.equal(ids({topic:[]}).length,4);
+});
+
+
+test('timetable separates overlaps, reuses lanes at boundaries, and handles missing times', () => {
+  const base = conferenceSchedule(data, [])[0];
+  const event = (id, start, end) => ({...base, session: {...base.session, id,
+    startsAt: start ? `2026-09-10T${start}:00+02:00` : null,
+    endsAt: end ? `2026-09-10T${end}:00+02:00` : null}});
+  const result = layoutSchedule([
+    event('long', '09:00', '10:30'), event('parallel', '09:00', '10:00'),
+    event('third', '09:30', '10:00'), event('reuse', '10:00', '11:00'),
+    event('solo', '11:00', '12:00'), event('unknown', null, null),
+  ]);
+  assert.equal(result.startMinute, 540);
+  assert.equal(result.endMinute, 720);
+  assert.deepEqual(result.untimed.map(e => e.session.id), ['unknown']);
+  const byId = Object.fromEntries(result.placed.map(p => [p.entry.session.id, p]));
+  assert.equal(byId.long.end - byId.long.start, 90);
+  assert.equal(byId.long.lanes, 3);
+  assert.equal(byId.reuse.lane, byId.parallel.lane);
+  assert.equal(byId.solo.lanes, 1);
+  for (const a of result.placed) for (const b of result.placed) {
+    if (a !== b && a.start < b.end && b.start < a.end) assert.notEqual(a.lane, b.lane);
+  }
+});
+
+test('real conference parallel sessions occupy separate timetable lanes', () => {
+  const entries = conferenceSchedule(data, []).filter(e => dayKey(e.session.startsAt) === '2026-09-10');
+  const {placed} = layoutSchedule(entries);
+  const morning = placed.filter(p => p.start === 540 && ['oral','spotlight'].includes(p.entry.kind));
+  assert.equal(morning.length, 3);
+  assert.equal(new Set(morning.map(p => p.lane)).size, 3);
+  for (const a of placed) for (const b of placed) {
+    if (a !== b && a.start < b.end && b.start < a.end) assert.notEqual(a.lane, b.lane);
+  }
 });

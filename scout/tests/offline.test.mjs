@@ -106,6 +106,7 @@ test('service worker installs full shell, navigates offline, serves saved data a
     return response;
   }
   assert.equal(await (await get('/saved')).text(), '/saved.html');
+  assert.equal(await (await get('/session/session-1?all=1')).text(), '/session/session-1.html');
   assert.equal(
     await (await get('/session/session-1')).text(),
     '/session/session-1.html',

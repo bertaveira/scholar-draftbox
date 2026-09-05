@@ -33,6 +33,9 @@ PATH=/Users/bertaveira/.cache/codex-runtimes/codex-primary-runtime/dependencies/
 
 - Browser keyword search with accent-insensitive matching, title priority, and combined topic/day/session/presentation filters.
 - Detail panel with authors, available abstract, official links, and all known presentations.
+- Saved offers Schedule and Paper list views. Schedule shows posters, orals, spotlight orals, keynotes, and breaks in day tabs, with a time axis, proportional event lengths, and overlapping events side by side. The timetable scrolls horizontally on small screens. Sessions with saved papers are highlighted; empty paper sessions open with all papers visible. Other events link to official details.
+- Filter menus size to their content up to a viewport-safe maximum; long labels wrap. All Explore filters support multiple choices (OR within a group, AND across groups). Clear individual groups or remove selected chips.
+- Opened sessions offer multi-select topics scoped to that session, working together with keyword search and the saved/all-papers switch.
 - Device-local bookmarks, grouped by day/session, natural poster-number ordering, and session browsing.
 - Versioned JSON export/import; imports merge bookmarks and preserve unknown IDs.
 - Offline app shell, all session routes, and a complete validated conference snapshot.
@@ -42,12 +45,12 @@ Saving a paper is a bookmark, not a promise to attend. There are no conflict war
 
 ## Data and source precedence
 
-The September 5, 2026 snapshot contains **2,863 papers**, **2,863 posters**, **28 oral appearances**, **135 spotlight appearances**, and **21 sessions**. Every paper has a poster number and session assignment. All abstracts are currently unavailable from the official published dataset; the app says so instead of inventing summaries.
+The September 5, 2026 snapshot contains **2,863 papers**, **2,863 posters**, **28 oral appearances**, **135 spotlight appearances**, and **56 sessions/events**. Every paper has a poster number and session assignment. All abstracts are currently unavailable from the official published dataset; the app says so instead of inventing summaries.
 
 Official sources:
 
 - [Accepted papers](https://eccv.ecva.net/Conferences/2026/AcceptedPapers): paper IDs, titles, authors, topics, poster numbers, and poster rooms. The page repeats some papers under multiple topics; identical repeated rows are deduplicated, conflicting duplicates rejected.
-- [Conference calendar](https://eccv.ecva.net/virtual/2026/calendar): authoritative session membership, times, and oral/spotlight titles. Appearances rendered without links are matched by exact normalized title, never fuzzy matching. Session times are not individual talk start times.
+- [Conference calendar](https://eccv.ecva.net/virtual/2026/calendar): authoritative session membership, times, and oral/spotlight titles. Appearances rendered without links are matched by exact normalized title, never fuzzy matching. Session times are not individual talk start times. Standalone events preserve speaker names where supplied and use explicit calendar end times. Facilities such as badge pickup and quiet rooms are excluded from the schedule.
 - [Published event JSON](https://eccv.ecva.net/static/virtual/data/eccv-2026-orals-posters.json): optional metadata enrichment. It declares 2,891 events but includes only the first 200; its API continuation returned 403 during implementation. It must not be used as the complete paper list.
 - [Published abstracts](https://eccv.ecva.net/static/virtual/data/eccv-2026-abstracts.json): empty at retrieval.
 
