@@ -1945,3 +1945,13 @@ footer p a {
 footer a:hover {
   color: #702b10;
 }
+
+/* Venue names must wrap without squeezing out the room or map icon. */
+.timeline-room {
+  overflow-wrap: anywhere;
+  align-items: flex-start;
+}
+.timeline-room svg,
+.paper-meta svg {
+  flex-shrink: 0;
+}

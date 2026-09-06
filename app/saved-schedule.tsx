@@ -12,6 +12,7 @@ import {
   dayKey,
   dayLabel,
   timeLabel,
+  locationLabel,
 } from '@/lib/conference';
 const PX_PER_MINUTE = 2.4;
 const labels: Record<string, string> = {
@@ -79,8 +80,8 @@ function DayTimeline({ entries }: { entries: ScheduleEntry[] }) {
                 href={href(entry)}
                 target={total ? undefined : '_blank'}
                 rel={total ? undefined : 'noreferrer'}
-                aria-label={`${labels[kind]}: ${session.name}. ${timeLabel(session)}. ${session.room || 'Room not available'}.${total ? ` ${savedCount} saved papers.` : ''}`}
-                title={`${session.name} · ${timeLabel(session)} · ${session.room || 'Room not available'}`}
+                aria-label={`${labels[kind]}: ${session.name}. ${timeLabel(session)}. ${locationLabel(session.room)}.${total ? ` ${savedCount} saved papers.` : ''}`}
+                title={`${session.name} · ${timeLabel(session)} · ${locationLabel(session.room)}`}
                 style={{
                   top: (start - startMinute) * PX_PER_MINUTE + 3,
                   height: (end - start) * PX_PER_MINUTE - 6,
@@ -100,7 +101,7 @@ function DayTimeline({ entries }: { entries: ScheduleEntry[] }) {
                 )}
                 <span className="timeline-room">
                   <MapPin size={13} />
-                  {session.room || 'Room not available'}
+                  {locationLabel(session.room)}
                 </span>
                 {total > 0 && (
                   <span className="timeline-saved">

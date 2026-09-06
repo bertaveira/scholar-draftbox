@@ -112,3 +112,9 @@ For local testing, build the app and run `npm run preview:lan` from the reposito
 Local HTTP transfer and bookmarking work on the phone, but service workers/offline caching require HTTPS (or localhost). Public hosting remains a separate step. Bookmarks belong to the exact browser origin, so changing address/port later requires another import.
 
 Accepted arXiv links are applied with `npm run data:links` at the repository root and reapplied during official ingestion when the enrichment artifacts are present. The snapshot currently includes 1,880 links (1,813 strict matches plus 67 accepted review matches). The import validates official titles, IDs, source URLs, and review evidence before atomic publication; abstracts and source/version provenance are also imported. Existing official abstracts take precedence over arXiv text. The 67 accepted review abstracts are retained in `reviewed-abstracts.jsonl`, recovered from cached arXiv responses without new requests.
+
+### Building and room labels
+
+All session locations use the shared `locationLabel` formatter in `lib/conference.ts`. It expands the calendar's short main-conference labels: AB and ExHall at Malmömässan; Arena Room and Palissad at Malmö Arena. Already-qualified room names retain their building, including Quality View Hotel and the distinct Malmö Arena Hotel. Unknown locations (such as generic foyers or TBC) are explicitly left without an assigned building. The original dataset strings remain intact, so existing recommendation versions stay compatible.
+
+Sources checked September 6, 2026: [official calendar](https://eccv.ecva.net/virtual/2026/calendar), [official workshop locations](https://eccv.ecva.net/Conferences/2026/Workshops), [Malmömässan halls A/B](https://www.malmomassan.se/en/congress/), [Malmömässan exhibition hall](https://www.malmomassan.se/en/our-facilities/), and [Palissad at Malmö Arena](https://www.malmoarena.com/konferens-event/palissad).

@@ -399,3 +399,43 @@ export function layoutSchedule(entries: ScheduleEntry[]) {
     untimed: entries.filter((e) => !timed.includes(e)),
   };
 }
+
+/** Full conference locations. Sources and alias scope are documented in README.md. */
+export function locationLabel(room: string | null | undefined): string {
+  const value = room?.trim();
+  if (!value) return 'Location not available';
+  const aliases: Record<string, string> = {
+    ab: 'Malmömässan, AB',
+    exhall: 'Malmömässan, ExHall',
+    'arena room': 'Malmö Arena, Arena Room',
+    palissad: 'Malmö Arena, Palissad',
+  };
+  if (aliases[value.toLowerCase()]) return aliases[value.toLowerCase()];
+  // Longest building names first: the Arena Hotel is distinct from the Arena.
+  const buildings = [
+    'Malmö Arena Hotel',
+    'Malmö Arena',
+    'Malmo Arena',
+    'Malmömässan',
+    'Quality View Hotel',
+    'Quality View',
+  ];
+  for (const building of buildings) {
+    if (
+      value.toLowerCase() === building.toLowerCase() ||
+      value.toLowerCase().startsWith(building.toLowerCase() + ' ') ||
+      value.toLowerCase().startsWith(building.toLowerCase() + ',')
+    ) {
+      const name =
+        building === 'Malmo Arena'
+          ? 'Malmö Arena'
+          : building === 'Quality View'
+            ? 'Quality View Hotel'
+            : building;
+      const detail = value.slice(building.length).replace(/^[\s,–-]+/, '');
+      return detail ? `${name}, ${detail}` : name;
+    }
+  }
+  if (value === 'Lobby, Malmö Arena') return 'Malmö Arena, Lobby';
+  return `${value} (building not specified)`;
+}

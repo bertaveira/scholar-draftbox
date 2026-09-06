@@ -61,6 +61,7 @@ import {
   dayKey,
   dayLabel,
   timeLabel,
+  locationLabel,
   groupSaved,
   sortPosters,
 } from '@/lib/conference';
@@ -481,7 +482,7 @@ export default function Scout({
                 </a>
                 <span>
                   <MapPin size={14} />
-                  {appearance.room || s.room || 'Room not available'}
+                  {locationLabel(appearance.room || s.room)}
                 </span>
                 <span>{s.name}</span>
               </>
@@ -546,7 +547,7 @@ export default function Scout({
             <h3>{suggestion.session.name}</h3>
             <span>
               <MapPin size={13} />
-              {suggestion.session.room || 'Room not available'}
+              {locationLabel(suggestion.session.room)}
             </span>
           </div>
           <div className="suggested-session-score">
@@ -724,7 +725,7 @@ export default function Scout({
                 : view === 'suggestions'
                   ? 'Private, on-device suggestions based on the papers you saved.'
                   : view === 'session' && session
-                    ? `${dayLabel(session.startsAt)} · ${timeLabel(session)} · ${session.room || 'Room not available'}`
+                    ? `${dayLabel(session.startsAt)} · ${timeLabel(session)} · ${locationLabel(session.room)}`
                     : 'Browse ECCV 2026, save your favourites, and find their posters.'}
             </p>
           </div>
@@ -948,8 +949,8 @@ export default function Scout({
                           <b>{g.session.name}</b>
                           <span>
                             {timeLabel(g.session)} ·{' '}
-                            {g.session.room || 'Room not available'} ·{' '}
-                            {g.papers.length} saved
+                            {locationLabel(g.session.room)} · {g.papers.length}{' '}
+                            saved
                           </span>
                         </div>
                         <ChevronRight size={20} />
@@ -1317,7 +1318,7 @@ export default function Scout({
                         <span>
                           {dayLabel(s.startsAt)} · {timeLabel(s)}
                         </span>
-                        <span>{p.room || s.room || 'Room not available'}</span>
+                        <span>{locationLabel(p.room || s.room)}</span>
                       </>
                     ) : (
                       <span>Schedule not available</span>

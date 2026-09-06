@@ -619,3 +619,20 @@ void test('sourced abstracts are searchable and malformed provenance is rejected
     assert.throws(() => validateDataset(broken));
   }
 });
+
+void test('locations include building and room without conflating hotels or inventing unknown venues', async () => {
+  const {locationLabel} = await import('../.test-output/conference.js');
+  assert.equal(locationLabel('AB'), 'Malmömässan, AB');
+  assert.equal(locationLabel('ExHall'), 'Malmömässan, ExHall');
+  assert.equal(locationLabel('Palissad'), 'Malmö Arena, Palissad');
+  assert.equal(locationLabel('Arena Room'), 'Malmö Arena, Arena Room');
+  assert.equal(locationLabel('Malmömässan C1'), 'Malmömässan, C1');
+  assert.equal(locationLabel('Malmö Arena Mezzanin 1-2'), 'Malmö Arena, Mezzanin 1-2');
+  assert.equal(locationLabel('Malmö Arena Hotel Terrassen'), 'Malmö Arena Hotel, Terrassen');
+  assert.equal(locationLabel('Quality View Hotel - Stroget 3'), 'Quality View Hotel, Stroget 3');
+  assert.equal(locationLabel('Malmömässan, AB'), 'Malmömässan, AB');
+  assert.equal(locationLabel(null), 'Location not available');
+  assert.equal(locationLabel('Foyer / TBC'), 'Foyer / TBC (building not specified)');
+  const sessions = conferenceSchedule(data, []).filter(e => e.total > 0 || e.kind === 'keynote');
+  assert.ok(sessions.every(e => !locationLabel(e.session.room).includes('not specified')));
+});
