@@ -67,7 +67,9 @@ import {
 import {
   PersonalizedSuggestion,
   RecommendationData,
+  SessionSuggestion,
   rankPersonalizedSuggestions,
+  rankSessionSuggestions,
   similarPapers,
 } from '@/lib/recommendations';
 import {
@@ -335,6 +337,45 @@ export default function Scout({
         : [],
     [data, recommendations, saved, dismissedRecommendations],
   );
+  const sessionSuggestions = useMemo(
+    () =>
+      data && recommendations
+        ? rankSessionSuggestions(
+            data,
+            recommendations,
+            saved,
+            dismissedRecommendations,
+            personalizedSuggestions.map(({ paper }) => paper.id),
+          )
+        : [],
+    [
+      data,
+      recommendations,
+      saved,
+      dismissedRecommendations,
+      personalizedSuggestions,
+    ],
+  );
+  const strongestSessionScore = Math.max(
+    0,
+    ...sessionSuggestions.map(({ score }) => score),
+  );
+  const sessionSuggestionsByDay = useMemo(() => {
+    const groups = new Map<string, SessionSuggestion[]>();
+    [...sessionSuggestions]
+      .sort(
+        (left, right) =>
+          Date.parse(left.session.startsAt!) -
+            Date.parse(right.session.startsAt!) ||
+          right.score - left.score ||
+          left.session.name.localeCompare(right.session.name),
+      )
+      .forEach((suggestion) => {
+        const day = dayKey(suggestion.session.startsAt);
+        groups.set(day, [...(groups.get(day) || []), suggestion]);
+      });
+    return [...groups.entries()];
+  }, [sessionSuggestions]);
   const detailSimilar = useMemo(
     () =>
       data && recommendations && detail
@@ -488,6 +529,69 @@ export default function Scout({
           </button>
         </div>
       </article>
+    );
+  }
+  function sessionSuggestionCard(suggestion: SessionSuggestion) {
+    const interestScore = strongestSessionScore
+      ? Math.round((100 * suggestion.score) / strongestSessionScore)
+      : 0;
+    return (
+      <details className="suggested-session" key={suggestion.session.id}>
+        <summary>
+          <div className="suggested-session-time">
+            <strong>{dayLabel(suggestion.session.startsAt)}</strong>
+            <span>{timeLabel(suggestion.session)}</span>
+          </div>
+          <div className="suggested-session-title">
+            <h3>{suggestion.session.name}</h3>
+            <span>
+              <MapPin size={13} />
+              {suggestion.session.room || 'Room not available'}
+            </span>
+          </div>
+          <div className="suggested-session-score">
+            <span>Interest</span>
+            <strong>{interestScore}</strong>
+          </div>
+          <ChevronRight
+            className="suggested-session-chevron"
+            size={19}
+            aria-hidden="true"
+          />
+        </summary>
+        <div className="suggested-session-body">
+          {suggestion.papers.length ? (
+            <div className="session-match-list">
+              {suggestion.papers.map(({ paper }, index) => (
+                <article className="session-match" key={paper.id}>
+                  <span className="session-match-rank">{index + 1}</span>
+                  <div>
+                    <span className="topic">
+                      {paper.topics[0] || 'ECCV 2026'}
+                    </span>
+                    <h4>
+                      <button onClick={() => setDetail(paper)}>
+                        {paper.title}
+                      </button>
+                    </h4>
+                  </div>
+                  {saveButton(paper)}
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p className="recommendation-status">
+              No strong unseen paper match in this session yet.
+            </p>
+          )}
+          <a
+            className="suggested-session-link"
+            href={`/session/${suggestion.session.id}?all=1`}
+          >
+            Explore the full session <ArrowUpRight size={14} />
+          </a>
+        </div>
+      </details>
     );
   }
   function empty(title: string, description: string) {
@@ -944,6 +1048,46 @@ export default function Scout({
                       {personalizedSuggestions.map(suggestionCard)}
                     </div>
                   )}
+                  {!recommendationLoading &&
+                    !recommendationError &&
+                    sessionSuggestions.length > 0 && (
+                      <section
+                        className="session-suggestions"
+                        aria-labelledby="session-suggestions-title"
+                      >
+                        <div className="suggestions-heading">
+                          <div>
+                            <div className="eyebrow">
+                              <Sparkles size={14} /> EXPLORE BY SESSION
+                            </div>
+                            <h2 id="session-suggestions-title">
+                              Every paper session, ranked for you
+                            </h2>
+                            <p>
+                              Open any session to see and save its strongest
+                              unseen matches. Scores are relative to your
+                              highest-ranked session, and session size does not
+                              affect the result.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="suggested-session-days">
+                          {sessionSuggestionsByDay.map(([day, suggestions]) => (
+                            <section
+                              className="suggested-session-day"
+                              key={day}
+                            >
+                              <h3>
+                                {dayLabel(suggestions[0].session.startsAt)}
+                              </h3>
+                              <div className="suggested-session-list">
+                                {suggestions.map(sessionSuggestionCard)}
+                              </div>
+                            </section>
+                          ))}
+                        </div>
+                      </section>
+                    )}
                 </>
               )}
             </section>

@@ -51,6 +51,7 @@ const {
   validateRecommendationData,
   similarPapers,
   rankPersonalizedSuggestions,
+  rankSessionSuggestions,
 } = await import('../.test-output/recommendations.js');
 const { loadRecommendations } =
   await import('../.test-output/recommendation-loader.js');
@@ -296,6 +297,43 @@ void test('published recommendations validate, load by pointer, and rank balance
         .flatMap(({ contributingSavedPaperIds }) => contributingSavedPaperIds),
     ),
     new Set(savedIds),
+  );
+
+  const bySession = rankSessionSuggestions(
+    data,
+    recommendationData,
+    savedIds,
+    [similar[0].paper.id],
+    ranked.map(({ paper }) => paper.id),
+  );
+  const excludedIds = new Set([
+    ...savedIds,
+    similar[0].paper.id,
+    ...ranked.map(({ paper }) => paper.id),
+  ]);
+  const scheduledPaperSessionIds = new Set(
+    data.presentations.map((presentation) => presentation.sessionId),
+  );
+  assert.equal(
+    bySession.length,
+    data.sessions.filter(
+      (session) => session.startsAt && scheduledPaperSessionIds.has(session.id),
+    ).length,
+  );
+  assert.equal(
+    new Set(bySession.map(({ session }) => session.id)).size,
+    bySession.length,
+  );
+  assert.ok(
+    bySession.every(
+      ({ score, papers }, index) =>
+        Number.isFinite(score) &&
+        score > 0 &&
+        papers.length >= 1 &&
+        papers.length <= 5 &&
+        papers.every(({ paper }) => !excludedIds.has(paper.id)) &&
+        (index === 0 || bySession[index - 1].score >= score),
+    ),
   );
 
   const originalFetch = globalThis.fetch;

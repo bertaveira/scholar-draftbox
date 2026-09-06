@@ -686,6 +686,156 @@ h2 {
   border-color: #b6805a;
   color: #94380f;
 }
+.session-suggestions {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #dbc8b4;
+}
+.suggested-session-days {
+  display: grid;
+  gap: 24px;
+}
+.suggested-session-day > h3 {
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #dbc8b4;
+  color: #70411e;
+  font-size: 18px;
+  letter-spacing: -0.2px;
+}
+.suggested-session-list {
+  display: grid;
+  gap: 10px;
+}
+.suggested-session {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #ded7ce;
+  border-radius: 6px;
+  background: #fff;
+}
+.suggested-session:has(summary:hover),
+.suggested-session[open] {
+  border-color: #b6805a;
+  box-shadow: 0 3px 12px rgb(80 50 30 / 8%);
+}
+.suggested-session summary {
+  display: grid;
+  grid-template-columns: 135px minmax(0, 1fr) 70px 20px;
+  align-items: center;
+  gap: 16px;
+  min-height: 82px;
+  padding-right: 16px;
+  cursor: pointer;
+  list-style: none;
+}
+.suggested-session summary::-webkit-details-marker {
+  display: none;
+}
+.suggested-session-time {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  justify-content: center;
+  gap: 5px;
+  padding: 15px 13px;
+  border-right: 1px solid #e5ddd4;
+  background: #f3e9dc;
+  color: #70411e;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.suggested-session-time strong {
+  font-size: 13px;
+}
+.suggested-session-body {
+  min-width: 0;
+  padding: 16px;
+  border-top: 1px solid #e5ddd4;
+  background: #fffdf9;
+}
+.suggested-session-title {
+  min-width: 0;
+}
+.suggested-session-title h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  line-height: 1.35;
+}
+.suggested-session-title span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #756b61;
+  font-size: 11px;
+}
+.suggested-session-score {
+  text-align: right;
+}
+.suggested-session-score span {
+  display: block;
+  color: #756b61;
+  font-size: 10px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.suggested-session-score strong {
+  color: #70411e;
+  font-size: 24px;
+  line-height: 1.1;
+}
+.suggested-session-chevron {
+  color: #a43a10;
+  transition: transform 160ms ease;
+}
+.suggested-session[open] .suggested-session-chevron {
+  transform: rotate(90deg);
+}
+.session-match-list {
+  display: grid;
+  gap: 8px;
+}
+.session-match {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border: 1px solid #e4ddd5;
+  border-radius: 5px;
+  background: #fff;
+}
+.session-match-rank {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f3e9dc;
+  color: #8b4c26;
+  font-size: 12px;
+  font-weight: 650;
+}
+.session-match h4 {
+  margin: 2px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.session-match h4 button {
+  text-align: left;
+}
+.session-match h4 button:hover {
+  color: #a63d12;
+}
+.suggested-session-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 13px;
+  color: #a43a10;
+  font-size: 12px;
+  font-weight: 600;
+}
 .day-title {
   font-size: 24px;
   margin: 26px 0 14px;
@@ -937,6 +1087,9 @@ footer a {
   .suggestion-list {
     grid-template-columns: 1fr;
   }
+  .suggested-session-list {
+    grid-template-columns: 1fr;
+  }
   .browse-layout {
     display: block;
   }
@@ -1010,6 +1163,39 @@ footer a {
   .suggestions-heading > button {
     margin-top: 7px;
     padding-left: 0;
+  }
+  .suggested-session summary {
+    grid-template-columns: minmax(0, 1fr) 58px 18px;
+    gap: 10px;
+    padding: 0 11px 12px;
+  }
+  .suggested-session-time {
+    grid-column: 1/-1;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0 -11px;
+    padding: 10px 11px;
+    border-right: 0;
+    border-bottom: 1px solid #e5ddd4;
+  }
+  .suggested-session-body {
+    padding: 13px 11px;
+  }
+  .suggested-session-score strong {
+    font-size: 21px;
+  }
+  .session-match {
+    grid-template-columns: 25px minmax(0, 1fr);
+    gap: 9px;
+    padding: 10px;
+  }
+  .session-match-rank {
+    width: 25px;
+    height: 25px;
+  }
+  .session-match > .save {
+    grid-column: 2;
+    justify-self: start;
   }
   .heading-row {
     display: block;

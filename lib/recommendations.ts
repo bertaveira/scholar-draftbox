@@ -1,4 +1,4 @@
-import { Dataset, Paper } from './conference';
+import { Dataset, Paper, Session } from './conference';
 
 export type NeighborEntry = [paperId: string, cosineSimilarity: number];
 export type RecommendationData = {
@@ -14,6 +14,12 @@ export type PersonalizedSuggestion = {
   paper: Paper;
   score: number;
   contributingSavedPaperIds: string[];
+};
+
+export type SessionSuggestion = {
+  session: Session;
+  score: number;
+  papers: { paper: Paper; score: number }[];
 };
 
 export function validateRecommendationData(
@@ -233,4 +239,150 @@ export function rankPersonalizedSuggestions(
     if (!added) break;
   }
   return result;
+}
+
+/**
+ * Score every paper session from the user's saved-paper interests.
+ *
+ * A session is judged by its best three unseen papers, rather than its total
+ * score, so large poster sessions do not automatically beat small oral ones.
+ * Reverse neighbour links and a small topic-overlap fallback give sparse
+ * recommendation graphs enough coverage to surface cross-domain matches.
+ */
+export function rankSessionSuggestions(
+  data: Dataset,
+  recommendations: RecommendationData,
+  savedPaperIds: string[],
+  dismissedPaperIds: string[],
+  additionallyExcludedPaperIds: string[] = [],
+): SessionSuggestion[] {
+  const byId = new Map(data.papers.map((paper) => [paper.id, paper]));
+  const saved = [...new Set(savedPaperIds)]
+    .map((paperId) => byId.get(paperId))
+    .filter((paper): paper is Paper => Boolean(paper));
+  if (!saved.length) return [];
+
+  const excluded = new Set([
+    ...savedPaperIds,
+    ...dismissedPaperIds,
+    ...additionallyExcludedPaperIds,
+  ]);
+  const savedIds = new Set(saved.map((paper) => paper.id));
+  const contributions = new Map<string, Map<string, number>>();
+  const record = (candidateId: string, savedId: string, score: number) => {
+    if (excluded.has(candidateId) || score <= 0) return;
+    const candidate =
+      contributions.get(candidateId) || new Map<string, number>();
+    candidate.set(savedId, Math.max(candidate.get(savedId) || 0, score));
+    contributions.set(candidateId, candidate);
+  };
+
+  for (const savedPaper of saved)
+    (recommendations.neighbors[savedPaper.id] || []).forEach(
+      ([candidateId, cosine], index) => {
+        record(
+          candidateId,
+          savedPaper.id,
+          Math.max(0, cosine) / Math.log2(index + 3),
+        );
+        (recommendations.neighbors[candidateId] || []).forEach(
+          ([secondHopId, secondHopCosine], secondHopIndex) => {
+            record(
+              secondHopId,
+              savedPaper.id,
+              (0.3 * Math.max(0, Math.min(cosine, secondHopCosine))) /
+                Math.sqrt(Math.log2(index + 3) * Math.log2(secondHopIndex + 3)),
+            );
+            (recommendations.neighbors[secondHopId] || []).forEach(
+              ([thirdHopId, thirdHopCosine], thirdHopIndex) =>
+                record(
+                  thirdHopId,
+                  savedPaper.id,
+                  (0.09 *
+                    Math.max(
+                      0,
+                      Math.min(cosine, secondHopCosine, thirdHopCosine),
+                    )) /
+                    Math.cbrt(
+                      Math.log2(index + 3) *
+                        Math.log2(secondHopIndex + 3) *
+                        Math.log2(thirdHopIndex + 3),
+                    ),
+                ),
+            );
+          },
+        );
+      },
+    );
+
+  for (const [candidateId, neighbors] of Object.entries(
+    recommendations.neighbors,
+  ))
+    neighbors.forEach(([neighborId, cosine], index) => {
+      if (savedIds.has(neighborId))
+        record(
+          candidateId,
+          neighborId,
+          Math.max(0, cosine) / Math.log2(index + 3),
+        );
+    });
+
+  const savedTopicSets = saved
+    .filter((paper) => paper.topics.length)
+    .map((paper) => ({ paperId: paper.id, topics: new Set(paper.topics) }));
+  for (const paper of data.papers) {
+    if (excluded.has(paper.id) || !paper.topics.length) continue;
+    const paperTopics = new Set(paper.topics);
+    for (const savedPaper of savedTopicSets) {
+      const topicScore = 0.12 * overlap(paperTopics, savedPaper.topics);
+      record(paper.id, savedPaper.paperId, topicScore);
+    }
+  }
+
+  const paperScores = new Map<string, number>();
+  for (const [paperId, bySavedPaper] of contributions) {
+    const scores = [...bySavedPaper.values()].sort(
+      (left, right) => right - left,
+    );
+    paperScores.set(paperId, scores[0] + 0.15 * (scores[1] || 0));
+  }
+
+  const paperIdsBySession = new Map<string, Set<string>>();
+  for (const presentation of data.presentations) {
+    if (!presentation.sessionId) continue;
+    const ids =
+      paperIdsBySession.get(presentation.sessionId) || new Set<string>();
+    ids.add(presentation.paperId);
+    paperIdsBySession.set(presentation.sessionId, ids);
+  }
+
+  const candidates: SessionSuggestion[] = [];
+  for (const session of data.sessions) {
+    if (!session.startsAt || !paperIdsBySession.has(session.id)) continue;
+    const papers = [...(paperIdsBySession.get(session.id) || [])]
+      .flatMap((paperId) => {
+        const paper = byId.get(paperId),
+          score = paperScores.get(paperId) || 0;
+        return paper && score > 0 ? [{ paper, score }] : [];
+      })
+      .sort(
+        (left, right) =>
+          right.score - left.score ||
+          left.paper.id.localeCompare(right.paper.id),
+      )
+      .slice(0, 5);
+    const score =
+      (papers[0]?.score || 0) +
+      0.55 * (papers[1]?.score || 0) +
+      0.3 * (papers[2]?.score || 0);
+    candidates.push({ session, score, papers });
+  }
+
+  return candidates.sort(
+    (left, right) =>
+      right.score - left.score ||
+      Date.parse(left.session.startsAt!) -
+        Date.parse(right.session.startsAt!) ||
+      left.session.id.localeCompare(right.session.id),
+  );
 }
